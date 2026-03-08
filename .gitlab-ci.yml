@@ -31,10 +31,10 @@ docker-build-backend:
   image: docker:24.0
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -f apps/api/Dockerfile -t $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA apps/api
-    - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/api:latest
-    - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
-    - docker push $CI_REGISTRY_IMAGE/api:latest
+    - docker build -f apps/server/Dockerfile -t $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHORT_SHA apps/server
+    - docker tag $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/server:latest
+    - docker push $CI_REGISTRY_IMAGE/server:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/server:latest
   dependencies:
     - build-to-jar
   only:
@@ -51,12 +51,12 @@ docker-build-frontend:
     - >
       docker build
       --build-arg NEXT_PUBLIC_API_URL="$NEXT_PUBLIC_API_URL"
-      -f apps/dashboard/Dockerfile
-      -t $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA
-      apps/dashboard
-    - docker tag $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/dashboard:latest
-    - docker push $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA
-    - docker push $CI_REGISTRY_IMAGE/dashboard:latest
+      -f apps/web/Dockerfile
+      -t $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA
+      apps/web
+    - docker tag $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/web:latest
+    - docker push $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/web:latest
   only:
     - development
 
@@ -78,6 +78,7 @@ deploy:
     - echo "DEPLOY_SERVER=$DEPLOY_SERVER"
 
   script:
+    - scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new "$ENV_FILE" "$DEPLOY_USER@$DEPLOY_SERVER:/home/$DEPLOY_USER/gainzos/.env"
     - ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_SERVER" "
       cd /home/$DEPLOY_USER/gainzos &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.skni.umcs.pl &&
