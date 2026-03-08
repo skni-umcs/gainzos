@@ -1,14 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { loginUser, registerUser, getUsers, logoutUser, validateUser } from '@/lib/api/auth';
+import { loginUser, registerUser, logoutUser, validateUser } from '@/lib/api/auth';
 import { User } from '@/lib/types/user';
 import { useQuery } from '@tanstack/react-query';
-
-export function useGetUsers() {
-  return useQuery({
-    queryKey: ['users'],
-    queryFn: getUsers,
-  });
-}
 
 export function useRegisterUser() {
   return useMutation({

@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+
 import { CommonTable } from "../shared/common-table";
 import { useUsersColumns } from "./users-columns";
-import { useGetUsers } from "@/lib/hooks/auth";
+import { useGetUsers } from "@/lib/hooks/users";
 import { useTranslations } from "next-intl";
 import { FadeLoader } from "react-spinners";
-import { Quote } from "@/lib/types/quote";
+
 
 export function UsersTable() {
   const { data: usersData, isPending } = useGetUsers();

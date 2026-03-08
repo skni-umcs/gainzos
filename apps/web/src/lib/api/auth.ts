@@ -1,22 +1,6 @@
 import { User } from '@/lib/types/user';
 import { AuthResponse } from '@/lib/types/auth';
 
-export async function getUsers() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${apiUrl}/api/auth/getAll`, {
-    method: 'GET',
-    credentials: 'include',
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch users');
-  }
-
-  const data = await res.json();
-  return data as User[];
-}
-
 export async function registerUser(user: User) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
