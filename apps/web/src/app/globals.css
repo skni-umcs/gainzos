@@ -1,0 +1,294 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Mapowanie kolorów shadcn na GainzOS */
+  --color-background: var(--color-gainzos-bg);
+  --color-foreground: var(--color-gainzos-text);
+  
+  --color-card: var(--color-gainzos-bg-light);
+  --color-card-foreground: var(--color-gainzos-text);
+  
+  --color-popover: var(--color-gainzos-bg-lighter);
+  --color-popover-foreground: var(--color-gainzos-text);
+  
+  --color-primary: var(--color-gainzos-blue);
+  --color-primary-foreground: var(--color-gainzos-text-bright);
+  
+  --color-secondary: var(--color-gainzos-bg-lighter);
+  --color-secondary-foreground: var(--color-gainzos-text);
+  
+  --color-muted: var(--color-gainzos-bg-lighter);
+  --color-muted-foreground: var(--color-gainzos-text-dim);
+  
+  --color-accent: var(--color-gainzos-accent);
+  --color-accent-foreground: var(--color-gainzos-text-bright);
+  
+  --color-destructive: var(--color-gainzos-error);
+  --color-destructive-foreground: var(--color-gainzos-text-bright);
+  
+  --color-border: var(--color-gainzos-border);
+  --color-input: var(--color-gainzos-border);
+  --color-ring: var(--color-gainzos-blue);
+  
+  /* Chart colors */
+  --color-chart-1: var(--color-gainzos-blue);
+  --color-chart-2: var(--color-gainzos-green);
+  --color-chart-3: var(--color-gainzos-orange);
+  --color-chart-4: var(--color-gainzos-purple);
+  --color-chart-5: var(--color-gainzos-yellow);
+  
+  /* Sidebar colors */
+  --color-sidebar: var(--color-gainzos-sidebar);
+  --color-sidebar-foreground: var(--color-gainzos-text);
+  --color-sidebar-primary: var(--color-gainzos-blue);
+  --color-sidebar-primary-foreground: var(--color-gainzos-text-bright);
+  --color-sidebar-accent: var(--color-gainzos-bg-light);
+  --color-sidebar-accent-foreground: var(--color-gainzos-text);
+  --color-sidebar-border: var(--color-gainzos-border);
+  --color-sidebar-ring: var(--color-gainzos-blue);
+  
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Font families */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+   /* GainzOS Dark Theme Colors */
+  --color-gainzos-bg: #1e1e1e;
+  --color-gainzos-bg-light: #252526;
+  --color-gainzos-bg-lighter: #2d2d30;
+  --color-gainzos-sidebar: #181818;
+  --color-gainzos-panel: #1e1e1e;
+
+  --color-gainzos-text: #cccccc;
+  --color-gainzos-text-dim: #969696;
+  --color-gainzos-text-bright: #ffffff;
+
+  --color-gainzos-border: #3e3e42;
+  --color-gainzos-border-light: #474749;
+
+  --color-gainzos-blue: #007acc;
+  --color-gainzos-blue-hover: #0086d3;
+  --color-gainzos-green: #4ec9b0;
+  --color-gainzos-orange: #d7ba7d;
+  --color-gainzos-red: #f48771;
+  --color-gainzos-purple: #c586c0;
+  --color-gainzos-yellow: #dcdcaa;
+
+  --color-gainzos-accent: #005fb8;
+  --color-gainzos-accent-hover: #0078d4;
+
+  --color-gainzos-success: #89d185;
+  --color-gainzos-warning: #ffcc02;
+  --color-gainzos-error: #f14c4c;
+  --color-gainzos-info: #3794ff;
+}
+
+:root {
+  --radius: 0.625rem;
+  
+  /* Te zmienne są teraz używane tylko jako fallback dla compatibility */
+  --background: var(--color-gainzos-bg);
+  --foreground: var(--color-gainzos-text);
+  --card: var(--color-gainzos-bg-light);
+  --card-foreground: var(--color-gainzos-text);
+  --popover: var(--color-gainzos-bg-lighter);
+  --popover-foreground: var(--color-gainzos-text);
+  --primary: var(--color-gainzos-blue);
+  --primary-foreground: var(--color-gainzos-text-bright);
+  --secondary: var(--color-gainzos-bg-lighter);
+  --secondary-foreground: var(--color-gainzos-text);
+  --muted: var(--color-gainzos-bg-lighter);
+  --muted-foreground: var(--color-gainzos-text-dim);
+  --accent: var(--color-gainzos-accent);
+  --accent-foreground: var(--color-gainzos-text-bright);
+  --destructive: var(--color-gainzos-error);
+  --border: var(--color-gainzos-border);
+  --input: var(--color-gainzos-border);
+  --ring: var(--color-gainzos-blue);
+  --chart-1: var(--color-gainzos-blue);
+  --chart-2: var(--color-gainzos-green);
+  --chart-3: var(--color-gainzos-orange);
+  --chart-4: var(--color-gainzos-purple);
+  --chart-5: var(--color-gainzos-yellow);
+  --sidebar: var(--color-gainzos-sidebar);
+  --sidebar-foreground: var(--color-gainzos-text);
+  --sidebar-primary: var(--color-gainzos-blue);
+  --sidebar-primary-foreground: var(--color-gainzos-text-bright);
+  --sidebar-accent: var(--color-gainzos-bg-light);
+  --sidebar-accent-foreground: var(--color-gainzos-text);
+  --sidebar-border: var(--color-gainzos-border);
+  --sidebar-ring: var(--color-gainzos-blue);
+}
+
+/* GainzOS Custom Utility Classes */
+.gainzos-bg {
+  background-color: var(--color-gainzos-bg);
+}
+.gainzos-bg-light {
+  background-color: var(--color-gainzos-bg-light);
+}
+.gainzos-bg-lighter {
+  background-color: var(--color-gainzos-bg-lighter);
+}
+.gainzos-sidebar {
+  background-color: var(--color-gainzos-sidebar);
+}
+.gainzos-panel {
+  background-color: var(--color-gainzos-panel);
+}
+
+.gainzos-text {
+  color: var(--color-gainzos-text);
+}
+.gainzos-text-dim {
+  color: var(--color-gainzos-text-dim);
+}
+.gainzos-text-bright {
+  color: var(--color-gainzos-text-bright);
+}
+
+.gainzos-border {
+  border-color: var(--color-gainzos-border);
+}
+.gainzos-border-light {
+  border-color: var(--color-gainzos-border-light);
+}
+
+.gainzos-blue {
+  color: var(--color-gainzos-blue);
+}
+.gainzos-green {
+  color: var(--color-gainzos-green);
+}
+.gainzos-orange {
+  color: var(--color-gainzos-orange);
+}
+.gainzos-red {
+  color: var(--color-gainzos-red);
+}
+.gainzos-purple {
+  color: var(--color-gainzos-purple);
+}
+.gainzos-yellow {
+  color: var(--color-gainzos-yellow);
+}
+
+.gainzos-accent {
+  background-color: var(--color-gainzos-accent);
+}
+.gainzos-accent:hover {
+  background-color: var(--color-gainzos-accent-hover);
+}
+
+.gainzos-success {
+  color: var(--color-gainzos-success);
+}
+.gainzos-warning {
+  color: var(--color-gainzos-warning);
+}
+.gainzos-error {
+  color: var(--color-gainzos-error);
+}
+.gainzos-info {
+  color: var(--color-gainzos-info);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Sonner Toast Styling */
+[data-sonner-toast] {
+  background-color: var(--color-gainzos-bg-light) !important;
+  border: 1px solid var(--color-gainzos-border) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-sonner-toast][data-type="success"] {
+  border-left: 4px solid var(--color-gainzos-success) !important;
+}
+
+[data-sonner-toast][data-type="error"] {
+  border-left: 4px solid var(--color-gainzos-error) !important;
+}
+
+[data-sonner-toast][data-type="warning"] {
+  border-left: 4px solid var(--color-gainzos-warning) !important;
+}
+
+[data-sonner-toast][data-type="info"] {
+  border-left: 4px solid var(--color-gainzos-info) !important;
+}
+
+[data-sonner-toast] [data-title] {
+  color: var(--color-gainzos-text-bright) !important;
+  font-weight: 600 !important;
+}
+
+[data-sonner-toast] [data-description] {
+  color: var(--color-gainzos-text) !important;
+}
+
+[data-sonner-toast] [data-button] {
+  background-color: var(--color-gainzos-accent) !important;
+  color: var(--color-gainzos-text-bright) !important;
+}
+
+[data-sonner-toast] [data-cancel-button] {
+  background-color: var(--color-gainzos-bg-lighter) !important;
+  color: var(--color-gainzos-text) !important;
+}
+
+[data-sonner-toast] [data-close-button] {
+  background-color: var(--color-gainzos-bg-lighter) !important;
+  border: 1px solid var(--color-gainzos-border) !important;
+  color: var(--color-gainzos-text) !important;
+}
+
+[data-sonner-toast] [data-close-button]:hover {
+  background-color: var(--color-gainzos-bg) !important;
+  border-color: var(--color-gainzos-border-light) !important;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gainzos-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gainzos-border);
+  border-radius: 6px;
+  border: 2px solid var(--color-gainzos-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gainzos-border-light);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-gainzos-bg);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gainzos-border) var(--color-gainzos-bg);
+}

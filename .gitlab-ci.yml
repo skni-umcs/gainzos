@@ -1,0 +1,94 @@
+services:
+  - name: docker:24.0-dind
+    alias: docker
+    command: ["--insecure-registry=registry.git.skni.umcs.pl"]
+
+stages:
+  - build-jar
+  - build-docker
+  - deploy
+
+# ==========================
+# 1) BUILD BACKEND -> JAR
+# ==========================
+build-to-jar:
+  stage: build-jar
+  image: maven:3.9.2-eclipse-temurin-17
+  script:
+    - cd apps/api
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - apps/api/target/*.jar
+  only:
+    - dev
+    - ci-test
+
+# =====================================
+# 2a) BUILD + PUSH DOCKER IMAGE BACKEND
+# =====================================
+docker-build-backend:
+  stage: build-docker
+  image: docker:24.0
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -f apps/api/Dockerfile -t $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA apps/api
+    - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/api:latest
+    - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/api:latest
+  dependencies:
+    - build-to-jar
+  only:
+    - dev
+    - ci-test
+
+# =======================================
+# 2b) BUILD + PUSH DOCKER IMAGE FRONTEND
+# =======================================
+docker-build-frontend:
+  stage: build-docker
+  image: docker:24.0
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - >
+      docker build
+      --build-arg NEXT_PUBLIC_API_URL="$NEXT_PUBLIC_API_URL"
+      -f apps/dashboard/Dockerfile
+      -t $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA
+      apps/dashboard
+    - docker tag $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE/dashboard:latest
+    - docker push $CI_REGISTRY_IMAGE/dashboard:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/dashboard:latest
+  only:
+    - dev
+    - ci-test
+
+
+# ==========================
+# 3) DEPLOY NA SERWER
+# ==========================
+deploy:
+  stage: deploy
+  image: alpine:3.18
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - echo "DEPLOY_USER=$DEPLOY_USER"
+    - echo "DEPLOY_SERVER=$DEPLOY_SERVER"
+
+  script:
+    - ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_SERVER" "
+      cd /home/$DEPLOY_USER/gainzos &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.skni.umcs.pl &&
+      docker compose pull &&
+      docker compose up -d
+      "
+  needs:
+    - docker-build-backend
+    - docker-build-frontend
+  only:
+    - dev
+    - ci-test

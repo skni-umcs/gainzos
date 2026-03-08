@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "name": "gainzos",
+      "path": "."
+    },
+    {
+      "name": "server",
+      "path": "apps/server"
+    },
+    {
+      "name": "web",
+      "path": "apps/web"
+    },
+    {
+      "name": "native",
+      "path": "apps/native"
+    }
+  ],
+  "settings": {
+    "java.import.gradle.enabled": true,
+    "java.import.gradle.wrapper.enabled": true,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.configuration.runtimes": [
+      {
+        "name": "JavaSE-25",
+        "path": "/home/damian/.local/share/mise/installs/java/25.0.2",
+        "default": true
+      }
+    ]
+  }
+}

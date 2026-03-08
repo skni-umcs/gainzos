@@ -1,0 +1,142 @@
+# ==========================================
+# General
+# ==========================================
+.DS_Store
+*.log
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# ==========================================
+# Environment Variables
+# ==========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==========================================
+# Spring Boot / Maven (Java Backend)
+# ==========================================
+apps/api/target/
+apps/api/!.mvn/wrapper/maven-wrapper.jar
+apps/api/*.jar
+apps/api/*.war
+apps/api/*.ear
+apps/api/*.zip
+apps/api/*.tar.gz
+apps/api/*.rar
+apps/api/storage/uploads/*
+!apps/api/storage/uploads/.gitkeep
+
+# Spring Boot specific
+apps/api/.mvn/
+apps/api/mvnw
+apps/api/mvnw.cmd
+apps/api/.factorypath
+apps/api/.classpath
+apps/api/.project
+apps/api/.settings/
+apps/api/bin/
+
+# IntelliJ IDEA
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# Eclipse
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# ==========================================
+# Next.js (Dashboard)
+# ==========================================
+apps/dashboard/.next/
+apps/dashboard/out/
+apps/dashboard/build/
+apps/dashboard/dist/
+apps/dashboard/node_modules/
+apps/dashboard/.turbo/
+
+# Next.js cache and build
+apps/dashboard/.vercel
+apps/dashboard/.swc/
+
+# Testing
+apps/dashboard/coverage/
+apps/dashboard/.nyc_output/
+
+# Package manager lock files (optional - uncomment if you want to ignore)
+# apps/dashboard/package-lock.json
+# apps/dashboard/yarn.lock
+# apps/dashboard/pnpm-lock.yaml
+
+# ==========================================
+# React Native (Native App)
+# ==========================================
+apps/native/node_modules/
+apps/native/.expo/
+apps/native/.expo-shared/
+apps/native/dist/
+apps/native/npm-debug.*
+apps/native/yarn-error.log
+apps/native/.DS_Store
+apps/native/*.jks
+apps/native/*.p8
+apps/native/*.p12
+apps/native/*.key
+apps/native/*.mobileprovision
+apps/native/*.orig.*
+apps/native/web-build/
+
+# ==========================================
+# Node.js (All JavaScript projects)
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ==========================================
+# Docker
+# ==========================================
+docker-compose.override.yml
+
+# ==========================================
+# Database
+# ==========================================
+*.sqlite
+*.db
+
+# ==========================================
+# OS Generated
+# ==========================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==========================================
+# GainzOS workspace
+# ==========================================
+
+gainzos_data
+pgdata
+cloudbeaver
+apidata
+
+
+# ==========================================
+# Miscellaneous
+# ==========================================
+*.bat

@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:17.6
+    container_name: gainzos-db
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./gainzos_data/pgdata:/var/lib/postgresql/data
+    networks:
+      - gainzos-net
+    restart: unless-stopped
+
+  api:
+    image: registry.skni.umcs.pl/gainzos/gainzos-core/api:latest
+    container_name: gainzos-api
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./gainzos_data/apidata:/app/storage
+    networks:
+      - gainzos-net
+    restart: unless-stopped
+
+  dashboard:
+    image: registry.skni.umcs.pl/gainzos/gainzos-core/dashboard:latest
+    container_name: gainzos-dashboard
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - api
+    networks:
+      - gainzos-net
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: gainzos-nginx
+    ports:
+      - "80:80"
+      - "8443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - dashboard
+      - api
+    networks:
+      - gainzos-net
+    restart: unless-stopped
+
+networks:
+  gainzos-net:
+
+volumes:
+  pgdata:
+  apidata:
+  cloudbeaver:

@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      target: build
+    command: mvn spring-boot:run
+    volumes:
+      - ./apps/api/src:/app/src
+      - ./apps/api/pom.xml:/app/pom.xml
+      - maven_cache:/root/.m2
+
+  dashboard:
+    command: npm run dev
+    volumes:
+      - ./apps/dashboard:/app
+      - /app/node_modules
+
+volumes:
+  maven_cache:
