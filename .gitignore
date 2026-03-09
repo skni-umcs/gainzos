@@ -121,6 +121,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
+.next
 
 # ==========================================
 # Docker
