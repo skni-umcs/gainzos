@@ -79,6 +79,7 @@ deploy:
 
   script:
     - scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new "$ENV_FILE" "$DEPLOY_USER@$DEPLOY_SERVER:/home/$DEPLOY_USER/gainzos/.env"
+    - scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new docker-compose.prod.yml "$DEPLOY_USER@$DEPLOY_SERVER:/home/$DEPLOY_USER/gainzos/docker-compose.yml"
     - ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_SERVER" "
       cd /home/$DEPLOY_USER/gainzos &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.skni.umcs.pl &&
