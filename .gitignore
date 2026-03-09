@@ -19,6 +19,18 @@
 .env.production.local
 
 # ==========================================
+# Gradle
+# ==========================================
+.gradle/
+**/build/
+!**/src/**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache
+local.properties
+
+# ==========================================
 # Spring Boot / Maven (Java Backend)
 # ==========================================
 apps/api/target/

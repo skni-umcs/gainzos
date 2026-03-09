@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-03-08T18:20:42+0100",
+    date = "2026-03-09T13:51:49+0100",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260224-0835, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
@@ -46,8 +46,8 @@ public class ExercisesTypeMapperImpl implements ExercisesTypeMapper {
         ExercisesType.ExercisesTypeBuilder exercisesType = ExercisesType.builder();
 
         exercisesType.id( exercisesTypeDTO.id() );
-        exercisesType.name( exercisesTypeDTO.name() );
         exercisesType.image( mediaMapper.toEntity( exercisesTypeDTO.image() ) );
+        exercisesType.name( exercisesTypeDTO.name() );
 
         return exercisesType.build();
     }
