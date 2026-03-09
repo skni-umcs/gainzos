@@ -29,6 +29,8 @@ gradle-app.setting
 !gradle-wrapper.properties
 .gradletasknamecache
 local.properties
+bin/
+build/
 
 # ==========================================
 # Spring Boot / Maven (Java Backend)
