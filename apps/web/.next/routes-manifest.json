@@ -1,0 +1,185 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/dashboard/exercise-types/[id]/delete",
+      "regex": "^/dashboard/exercise\\-types/([^/]+?)/delete(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercise\\-types/(?<nxtPid>[^/]+?)/delete(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercise-types/[id]/edit",
+      "regex": "^/dashboard/exercise\\-types/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercise\\-types/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercise-types/[id]/view",
+      "regex": "^/dashboard/exercise\\-types/([^/]+?)/view(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercise\\-types/(?<nxtPid>[^/]+?)/view(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercises/[id]/delete",
+      "regex": "^/dashboard/exercises/([^/]+?)/delete(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercises/(?<nxtPid>[^/]+?)/delete(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercises/[id]/edit",
+      "regex": "^/dashboard/exercises/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercises/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercises/[id]/view",
+      "regex": "^/dashboard/exercises/([^/]+?)/view(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/exercises/(?<nxtPid>[^/]+?)/view(?:/)?$"
+    },
+    {
+      "page": "/dashboard/quotes/[id]/edit",
+      "regex": "^/dashboard/quotes/([^/]+?)/edit(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/dashboard/quotes/(?<nxtPid>[^/]+?)/edit(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercise-types",
+      "regex": "^/dashboard/exercise\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/exercise\\-types(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercise-types/add",
+      "regex": "^/dashboard/exercise\\-types/add(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/exercise\\-types/add(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercises",
+      "regex": "^/dashboard/exercises(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/exercises(?:/)?$"
+    },
+    {
+      "page": "/dashboard/exercises/add",
+      "regex": "^/dashboard/exercises/add(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/exercises/add(?:/)?$"
+    },
+    {
+      "page": "/dashboard/quotes",
+      "regex": "^/dashboard/quotes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/quotes(?:/)?$"
+    },
+    {
+      "page": "/dashboard/quotes/add",
+      "regex": "^/dashboard/quotes/add(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/quotes/add(?:/)?$"
+    },
+    {
+      "page": "/dashboard/users",
+      "regex": "^/dashboard/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/users(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/register",
+      "regex": "^/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/register(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["turbopack:///[project]/apps/web/src/app/page.tsx"],"sourcesContent":["import React from 'react'\n\nfunction RootPage() {\n  return (\n    <div>RootPage</div>\n  )\n}\n\nexport default RootPage"],"names":[],"mappings":"sWAEA,SAAS,EACP,MACE,CAAA,EAAA,EAAA,GAAA,EAAC,MAAA,UAAI,YAET"}

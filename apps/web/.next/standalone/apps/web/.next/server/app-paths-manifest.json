@@ -1,0 +1,23 @@
+{
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/register/page": "app/(auth)/register/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/exercise-types/@modal/[id]/delete/page": "app/dashboard/exercise-types/@modal/[id]/delete/page.js",
+  "/dashboard/exercise-types/@modal/[id]/edit/page": "app/dashboard/exercise-types/@modal/[id]/edit/page.js",
+  "/dashboard/exercise-types/@modal/[id]/view/page": "app/dashboard/exercise-types/@modal/[id]/view/page.js",
+  "/dashboard/exercise-types/@modal/add/page": "app/dashboard/exercise-types/@modal/add/page.js",
+  "/dashboard/exercise-types/page": "app/dashboard/exercise-types/page.js",
+  "/dashboard/exercises/@modal/[id]/delete/page": "app/dashboard/exercises/@modal/[id]/delete/page.js",
+  "/dashboard/exercises/@modal/[id]/edit/page": "app/dashboard/exercises/@modal/[id]/edit/page.js",
+  "/dashboard/exercises/@modal/[id]/view/page": "app/dashboard/exercises/@modal/[id]/view/page.js",
+  "/dashboard/exercises/@modal/add/page": "app/dashboard/exercises/@modal/add/page.js",
+  "/dashboard/exercises/page": "app/dashboard/exercises/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/quotes/@modal/[id]/edit/page": "app/dashboard/quotes/@modal/[id]/edit/page.js",
+  "/dashboard/quotes/@modal/add/page": "app/dashboard/quotes/@modal/add/page.js",
+  "/dashboard/quotes/page": "app/dashboard/quotes/page.js",
+  "/dashboard/users/page": "app/dashboard/users/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}

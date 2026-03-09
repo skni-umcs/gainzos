@@ -3,6 +3,7 @@ SHELL := /bin/bash
 ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SERVER_DIR := $(ROOT_DIR)apps/server
 WEB_DIR := $(ROOT_DIR)apps/web
+ENV_FILE := $(ROOT_DIR).env
 SERVER_ENV_FILE := $(SERVER_DIR)/.env
 WEB_ENV_FILE := $(WEB_DIR)/.env
 
@@ -32,8 +33,8 @@ dev\:web:
 dev\:server:
 	set -a; source $(SERVER_ENV_FILE); set +a; \
 	cd $(SERVER_DIR) && ./gradlew -t compileJava &
-	set -a; source $(SERVER_ENV_FILE); set +a; cd $(SERVER_DIR) && ./gradlew bootRun
+	set -a; source $(SERVER_ENV_FILE); DATABASE_IP=localhost; set +a; cd $(SERVER_DIR) && ./gradlew bootRun
 
 build:
 	cd $(SERVER_DIR) && ./gradlew clean build
-	set -a; source $(WEB_ENV_FILE); set +a; cd $(WEB_DIR) && npm run build
+	set -a; source $(ENV_FILE); set +a; cd $(WEB_DIR) && npm run build
