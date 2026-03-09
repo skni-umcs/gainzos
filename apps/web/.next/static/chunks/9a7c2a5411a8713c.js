@@ -1,1 +1,0 @@
-(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,93456,t=>{"use strict";var e=t.i(81099);t.s(["default",0,()=>(0,e.jsx)("div",{children:(0,e.jsx)("h1",{className:"text-2xl font-bold text-white",children:"Dashboard"})})])}]);

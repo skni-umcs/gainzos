@@ -1,1 +1,0 @@
-{"version":3,"sources":["turbopack:///[project]/apps/web/src/app/dashboard/exercises/@modal/default.tsx"],"sourcesContent":["export default function Default() {\n  return null;\n}"],"names":[],"mappings":"yXAAe,SAAS,IACtB,OAAO,IACT"}
