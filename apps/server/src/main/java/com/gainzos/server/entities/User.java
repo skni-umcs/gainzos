@@ -29,6 +29,13 @@ public class User {
     @Column(name = "role", nullable = false, length = 50)
     private String role;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "metrics_id", nullable = true)
+    private UserMetrics metrics;
+
     @Column(name = "created_at", nullable = false)
     private java.time.LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = true)
+    private java.time.LocalDateTime updatedAt;
 }
