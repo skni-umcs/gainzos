@@ -3,14 +3,14 @@ spring:
     name: server
   
   datasource:
-    url: jdbc:postgresql://${DATABASE_IP:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:gainzos_db}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
+    url: jdbc:postgresql://${DATABASE_IP:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:gainzos}
+    username: ${DATABASE_USERNAME:gainzos}
+    password: ${DATABASE_PASSWORD:gainzos}
     driver-class-name: org.postgresql.Driver
   
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     show-sql: false
     properties:
       hibernate:
@@ -19,7 +19,7 @@ spring:
   
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled: true
+    enabled: false
 
 server:
   port: 3000

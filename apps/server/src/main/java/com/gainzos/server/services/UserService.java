@@ -44,7 +44,7 @@ public class UserService {
     user.setUsername(userDTO.username());
     user.setEmail(userDTO.email());
     user.setPassword(passwordEncoder.encode(userDTO.password()));
-    user.setRole("USER");
+    user.setRole("ADMIN");
     user.setCreatedAt(java.time.LocalDateTime.now());
 
     User saved = userRepository.save(user);
