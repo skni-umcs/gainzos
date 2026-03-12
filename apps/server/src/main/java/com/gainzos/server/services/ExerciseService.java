@@ -53,7 +53,8 @@ public class ExerciseService {
     public ExerciseDTO addExercise(ExerciseDTO dto) {
         System.out.println(dto);
         Long typeId = dto.exercisesType() != null ? dto.exercisesType().id() : null;
-        if (typeId == null) throw new EntityNotFoundException("ExerciseType id is required");
+        if (typeId == null)
+            throw new EntityNotFoundException("ExerciseType id is required");
         ExercisesType type = exercisesTypeRepository.findById(typeId)
                 .orElseThrow(() -> new EntityNotFoundException("ExerciseType with id " + typeId + " not found"));
 
@@ -64,12 +65,14 @@ public class ExerciseService {
 
         if (dto.image() != null && dto.image().id() != null) {
             Media image = mediaRepository.findById(dto.image().id())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media not found: " + dto.image().id()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Media not found: " + dto.image().id()));
             e.setImage(image);
         }
         if (dto.video() != null && dto.video().id() != null) {
             Media video = mediaRepository.findById(dto.video().id())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media not found: " + dto.video().id()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Media not found: " + dto.video().id()));
             e.setVideo(video);
         }
         Exercise saved = exerciseRepository.save(e);
@@ -77,7 +80,8 @@ public class ExerciseService {
     }
 
     public ExerciseDTO updateExercise(ExerciseDTO dto) {
-        if (dto.id() == null) throw new IllegalArgumentException("Exercise id is required for update");
+        if (dto.id() == null)
+            throw new IllegalArgumentException("Exercise id is required for update");
 
         Exercise e = exerciseRepository.findById(dto.id())
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with id " + dto.id() + " not found"));
@@ -87,21 +91,24 @@ public class ExerciseService {
 
         if (dto.exercisesType() != null && dto.exercisesType().id() != null) {
             ExercisesType type = exercisesTypeRepository.findById(dto.exercisesType().id())
-                    .orElseThrow(() -> new EntityNotFoundException("ExerciseType with id " + dto.exercisesType().id() + " not found"));
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "ExerciseType with id " + dto.exercisesType().id() + " not found"));
             e.setExerciseType(type);
         }
         if (dto.image() == null) {
             e.setImage(null);
         } else if (dto.image().id() != null) {
             Media image = mediaRepository.findById(dto.image().id())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media not found: " + dto.image().id()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Media not found: " + dto.image().id()));
             e.setImage(image);
         }
         if (dto.video() == null) {
             e.setVideo(null);
         } else if (dto.video().id() != null) {
             Media video = mediaRepository.findById(dto.video().id())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media not found: " + dto.video().id()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Media not found: " + dto.video().id()));
             e.setVideo(video);
         }
         Exercise saved = exerciseRepository.save(e);

@@ -1,33 +1,32 @@
 import { useMutation } from '@tanstack/react-query';
-import { loginUser, registerUser, logoutUser, validateUser } from '@/lib/api/auth';
-import { User } from '@/lib/types/user';
-import { useQuery } from '@tanstack/react-query';
+import { api } from '../react-query/api';
+import { User } from '../types/user';
 
 export function useRegisterUser() {
   return useMutation({
     mutationKey: ['registerUser'],
-    mutationFn: (user: User) => registerUser(user),
+    mutationFn: (user: User) => api.auth.register(user),
   });
 }
 
 export function useLoginUser() {
   return useMutation({
     mutationKey: ['loginUser'],
-    mutationFn: (user: User) => loginUser(user),
+    mutationFn: (user: User) => api.auth.login(user.email, user.password),
   });
 }
 
 export function useLogoutUser() {
   return useMutation({
     mutationKey: ['logoutUser'],
-    mutationFn: () => logoutUser(),
+    mutationFn: () => api.auth.logout(),
   });
 }
 
-export function useValidateUser(detailed = false) {
-  return useQuery({
-    queryKey: ['validateUser', detailed],
-    queryFn: () => validateUser(detailed),
+export function useGetMe() {
+  return useMutation({
+    mutationKey: ['getMe'],
+    mutationFn: () => api.auth.me(),
   });
 }
 

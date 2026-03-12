@@ -2,18 +2,15 @@ package com.gainzos.server.services;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import com.gainzos.server.repository.UserRepository;
-import com.gainzos.server.entities.User;
 import com.gainzos.server.mappers.UserMapper;
-import com.gainzos.server.dto.UserPostDTO;
-import com.gainzos.server.dto.UserResponseDTO;
+import com.gainzos.server.dto.UserDTO;
+import com.gainzos.server.dto.UserSessionDTO;
+import com.gainzos.server.entities.User;
 
 
 @Service
@@ -22,51 +19,31 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
-  private final AuthenticationManager authenticationManager;
   private final PasswordEncoder passwordEncoder;
 
-  public List<UserResponseDTO> getAll() {
+  public List<UserDTO> getAll() {
     return userRepository.findAll().stream()
-            .map(userMapper::toResponseDTO)
+            .map(userMapper::toDTO)
             .toList();
   }
 
-  public UserResponseDTO registerUser(UserPostDTO userDTO) {
-    if (userRepository.findByUsername(userDTO.username()).isPresent()) {
-      throw new RuntimeException("User with login '" + userDTO.username() + "' already exists");
-    }
-
+  public void register(UserDTO userDTO) {
     if (userRepository.findByEmail(userDTO.email()).isPresent()) {
-      throw new RuntimeException("User with email '" + userDTO.email() + "' already exists");
+      throw new IllegalArgumentException("Email already in use");
     }
 
     User user = new User();
-    user.setUsername(userDTO.username());
     user.setEmail(userDTO.email());
+    user.setUsername(userDTO.username());
     user.setPassword(passwordEncoder.encode(userDTO.password()));
     user.setRole("ADMIN");
-    user.setCreatedAt(java.time.LocalDateTime.now());
-
-    User saved = userRepository.save(user);
-
-    return new UserResponseDTO(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getRole(), saved.getCreatedAt());
+    userRepository.save(user);
   }
 
-  public UserResponseDTO loginUser(UserPostDTO userDTO) {
-
-    User user = userRepository.findByEmail(userDTO.email())
-            .orElseThrow(() -> new RuntimeException("User not found: " + userDTO.email()));
-
-    UsernamePasswordAuthenticationToken authInputToken =
-            new UsernamePasswordAuthenticationToken(userDTO.email(), userDTO.password());
-
-    try {
-      Authentication auth = authenticationManager.authenticate(authInputToken);
-      SecurityContextHolder.getContext().setAuthentication(auth);
-
-      return new UserResponseDTO(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getCreatedAt());
-    } catch (Exception e) {
-      throw e;
-    }
+  public UserSessionDTO getSession(String email) {
+    return userRepository.findByEmail(email)
+            .map(userMapper::toDTO)
+            .map(dto -> new UserSessionDTO(dto.email(), dto.role(), dto.username()))
+            .orElseThrow(() -> new IllegalStateException("No authenticated user found"));
   }
 }

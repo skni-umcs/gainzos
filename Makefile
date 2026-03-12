@@ -32,7 +32,7 @@ dev\:web:
 
 dev\:server:
 	set -a; source $(SERVER_ENV_FILE); set +a; \
-	cd $(SERVER_DIR) && ./gradlew -t compileJava &
+# 	cd $(SERVER_DIR) && ./gradlew -t compileJava &
 	set -a; source $(SERVER_ENV_FILE); DATABASE_IP=localhost; set +a; cd $(SERVER_DIR) && ./gradlew bootRun
 
 build:

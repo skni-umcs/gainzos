@@ -66,4 +66,3 @@ networks:
 volumes:
   pgdata:
   apidata:
-  cloudbeaver:

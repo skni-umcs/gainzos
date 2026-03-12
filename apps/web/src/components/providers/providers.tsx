@@ -1,9 +1,9 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NextIntlClientProvider, AbstractIntlMessages } from 'next-intl';
-import { useState } from 'react';
+import { queryClient } from '@/lib/react-query/query-client';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -11,8 +11,6 @@ interface ProvidersProps {
 }
 
 export function Providers({ children, messages }: ProvidersProps) {
-  const [queryClient] = useState(() => new QueryClient());
-
   return (
     <NextIntlClientProvider messages={messages} locale="pl">
       <QueryClientProvider client={queryClient}>

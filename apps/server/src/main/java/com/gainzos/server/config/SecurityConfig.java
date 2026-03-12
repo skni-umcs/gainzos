@@ -1,5 +1,6 @@
 package com.gainzos.server.config;
 
+import com.gainzos.server.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,81 +8,85 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.web.filter.ForwardedHeaderFilter;
-import com.gainzos.server.entities.User;
-import lombok.extern.slf4j.Slf4j;
-import java.util.Collections;
-import com.gainzos.server.repository.UserRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
-
-
-@Slf4j
-@EnableMethodSecurity
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-  @Bean
-  public ForwardedHeaderFilter forwardedHeaderFilter() {
-    log.info("[SECURITY][INIT] ForwardedHeaderFilter bean created");
-    return new ForwardedHeaderFilter();
-  }
+    private final CustomUserDetailsService userDetailsService;
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    log.info("[SECURITY][BUILD] Starting to build SecurityFilterChain");
-    http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/login", "/auth/logout", "/auth/register", "/auth/validate").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginProcessingUrl("/auth/login")
+                .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
+                .failureHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/auth/logout")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
+            )
             .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .sessionFixation().changeSessionId()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+            )
+            .csrf(csrf -> csrf.disable())
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .accessDeniedHandler((req, res, e) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
             );
 
-    SecurityFilterChain chain = http.build();
-    log.info("[SECURITY][BUILD] SecurityFilterChain built successfully");
-    return chain;
-  }
+        return http.build();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    log.info("[SECURITY][INIT] PasswordEncoder (BCrypt) bean created");
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public AuthenticationManager authManager(PasswordEncoder encoder) {
+        var provider = new DaoAuthenticationProvider(userDetailsService);
+        provider.setPasswordEncoder(encoder);
+        return new ProviderManager(provider);
+    }
 
-  @Bean
-  public UserDetailsService userDetailsService(UserRepository userRepository) {
-    log.info("[SECURITY][INIT] UserDetailsService bean created");
-    return email -> {
-      User user = userRepository.findByEmail(email)
-              .orElseThrow(() -> {
-                log.info("[SECURITY][USER_LOOKUP_FAIL] email={} not found", email);
-                return new UsernameNotFoundException("User not found: " + email);
-              });
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-      log.info("[SECURITY][USER_LOADED] email={} username={} role={}", email, user.getUsername(), user.getRole());
-      return org.springframework.security.core.userdetails.User.builder()
-              .username(user.getUsername())
-              .password(user.getPassword())
-              .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
-              .build();
-    };
-  }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        var config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:3001")); // adres Next.js
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
 
-  @Bean
-  public AuthenticationManager authenticationManager(
-          UserDetailsService userDetailsService,
-          PasswordEncoder passwordEncoder) {
-    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
-    authenticationProvider.setPasswordEncoder(passwordEncoder);
-    log.info("[SECURITY][INIT] AuthenticationManager configured with DaoAuthenticationProvider");
-    return new ProviderManager(authenticationProvider);
-  }
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }

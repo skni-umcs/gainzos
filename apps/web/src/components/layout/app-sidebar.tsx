@@ -18,8 +18,13 @@ import { useTranslations } from 'next-intl';
 import { NavigationMain } from './navigation-main';
 import { Logo } from '../icons';
 import { NavFooter } from './nav-footer';
+import { UserSession } from '@/lib/types';
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  user: UserSession | null;
+}
+
+export function AppSidebar({ user }: AppSidebarProps) {
   const t = useTranslations('common');
   const tNavigation = useTranslations('navigation');
   const tSections = useTranslations('sections');
@@ -80,7 +85,7 @@ export function AppSidebar() {
         <NavigationMain sections={nav_sections} />
       </SidebarContent>
       <SidebarFooter className="border-t border-sidebar-border">
-        <NavFooter />
+        <NavFooter UserSession={user} />
       </SidebarFooter>
     </Sidebar>
   );

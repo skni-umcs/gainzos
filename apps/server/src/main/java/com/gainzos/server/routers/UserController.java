@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.gainzos.server.services.UserService;
-import com.gainzos.server.dto.UserResponseDTO;
+import com.gainzos.server.dto.UserDTO;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class UserController {
 
   @GetMapping("/getAll")
   @Operation(summary = "Get all users", description = "Retrieve a list of all registered users")
-  public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-    List<UserResponseDTO> users = userService.getAll();
+  public ResponseEntity<List<UserDTO>> getAllUsers() {
+    List<UserDTO> users = userService.getAll();
     return ResponseEntity.ok(users);
   }
 }

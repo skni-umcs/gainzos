@@ -1,37 +1,31 @@
 import { ExerciseType } from '@/lib/types/exercise-type';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  addExerciseType,
-  updateExerciseType,
-  deleteExerciseType,
-  fetchExercisesTypes,
-} from '@/lib/api/exercise-types';
+import { api } from '../react-query/api';
 
 export function useExerciseTypes() {
   return useQuery({
     queryKey: ['exercise-types'],
-    queryFn: fetchExercisesTypes,
-    staleTime: 60 * 1000, // 1 minute
+    queryFn: api.exerciseTypes.getAll,
   });
 }
 
 export function usePostExerciseType() {
   return useMutation({
     mutationKey: ['post-exercise-type'],
-    mutationFn: (newExerciseType: ExerciseType) => addExerciseType(newExerciseType),
+    mutationFn: (newExerciseType: ExerciseType) => api.exerciseTypes.add(newExerciseType),
   });
 }
 
 export function useUpdateExerciseType() {
   return useMutation({
     mutationKey: ['update-exercise-type'],
-    mutationFn: (updatedExerciseType: ExerciseType) => updateExerciseType(updatedExerciseType),
+    mutationFn: (updatedExerciseType: ExerciseType) => api.exerciseTypes.update(updatedExerciseType),
   });
 }
 
 export function useDeleteExerciseType() {
   return useMutation({
     mutationKey: ['delete-exercise-type'],
-    mutationFn: (exerciseTypeId: string) => deleteExerciseType(exerciseTypeId),
+    mutationFn: (exerciseTypeId: number) => api.exerciseTypes.delete(exerciseTypeId),
   });
 }

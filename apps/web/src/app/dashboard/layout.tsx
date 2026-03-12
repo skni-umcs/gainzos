@@ -1,43 +1,23 @@
-'use client';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { useValidateUser } from '@/lib/hooks/auth';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { MoonLoader } from 'react-spinners';
+import { getSession } from '@/lib/server/get-session';
+import { redirect } from 'next/navigation';
+import { UserSession } from '@/lib/types';
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const user: UserSession | null = await getSession();
 
-  const { data: userData, isPending } = useValidateUser(true);
+  const isAdmin = user?.role === 'ADMIN';
 
-  useEffect(() => {
-    if (!isPending && userData) {
-      // Sprawdź czy użytkownik ma rolę ADMIN
-      if (userData?.session?.authority !== 'ROLE_ADMIN') {
-        router.replace('/login');
-        return;
-      }
-    }
-    
-    if (!isPending && !userData) {
-      // Brak sesji - przekieruj do logowania
-      router.replace('/login');
-    }
-  }, [userData, isPending, router]);
-
-  if (isPending)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <MoonLoader size={50} color="#36d7b7" />
-      </div>
-    );
+  // if (!isAdmin) {
+  //   redirect('/login');
+  // }
 
   return (
     <main className={'antialiased gainzos-bg gainzos-text-bright'}>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar user={user} />
         {children}
       </SidebarProvider>
     </main>
