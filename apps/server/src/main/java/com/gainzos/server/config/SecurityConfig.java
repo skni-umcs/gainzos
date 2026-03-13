@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,9 +27,11 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final RoleRefreshFilter roleRefreshFilter;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService, RoleRefreshFilter roleRefreshFilter) {
         this.userDetailsService = userDetailsService;
+        this.roleRefreshFilter = roleRefreshFilter;
     }
 
     @Bean
@@ -53,9 +56,11 @@ public class SecurityConfig {
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionFixation(fixation -> fixation.newSession()) // nowa sesja po logowaniu
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
             )
+            .addFilterAfter(roleRefreshFilter, UsernamePasswordAuthenticationFilter.class)
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(ex -> ex
                 .authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))

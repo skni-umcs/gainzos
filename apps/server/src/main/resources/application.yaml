@@ -20,9 +20,15 @@ spring:
   session:
     store-type: jdbc
     jdbc:
-      initialize-schema: always
-      schema: classpath:org/springframework/session/jdbc/schema-postgresql.sql
+      table-name: SESSION
+      initialize-schema: never
+      cleanup-cron: "0 * * * * *"
     timeout: 30m
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/session/session-schema.sql
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
