@@ -35,6 +35,12 @@ public class User {
     @JoinColumn(name = "metrics_id", nullable = true)
     private UserMetrics metrics;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<WorkoutTemplate> workoutTemplates;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<Workout> workouts;
+
     @Column(name = "created_at", nullable = false)
     private java.time.LocalDateTime createdAt;
 
