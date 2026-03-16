@@ -1,9 +1,12 @@
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
+import { QuoteCard } from '@/components/feats/home/quote-card';
+import { ScreenTitle } from '@/components/ui/screen-title';
 
 export default function Index() {
   return (
     <View className="flex-1 items-center justify-center px-6">
-      <Text className="text-center text-lg text-blue-400">Twój navigator działa ✅</Text>
+      <ScreenTitle title="Welcome back" />
+      <QuoteCard quote="Nie ma nic lepszego niż być sobą." />
     </View>
   );
 }

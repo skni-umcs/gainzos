@@ -2,23 +2,14 @@ import * as SecureStore from 'expo-secure-store';
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
-export type UserRole = 'athlete' | 'trainer' | 'admin';
-
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  avatarUrl?: string | null;
-}
+import { UserSession } from '../types';
 
 interface UserState {
   sessionToken: string | null;
-  user: User | null;
+  user: UserSession | null;
   setSessionToken: (sessionToken: string | null) => void;
-  setUser: (user: User | null) => void;
-  setSession: (payload: { sessionToken: string; user: User }) => void;
+  setUser: (user: UserSession | null) => void;
+  setSession: (payload: { sessionToken: string; user: UserSession }) => void;
   clearSession: () => void;
 }
 

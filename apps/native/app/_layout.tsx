@@ -1,5 +1,7 @@
 import '@/global.css';
 import { Stack } from 'expo-router';
+import { View, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { queryClient, asyncStoragePersister } from '@/lib/react-query/query-client';
 import { PortalProvider } from '@gorhom/portal';
@@ -24,12 +26,20 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
+    <LinearGradient
+      colors={['#1a0533', '#0A0A0F']}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={StyleSheet.absoluteFill}
     >
-      <Stack.Screen name="(tabs)" />
-    </Stack>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: 'transparent' },
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </LinearGradient>
   );
 }
