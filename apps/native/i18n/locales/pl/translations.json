@@ -1,0 +1,8 @@
+{
+    "screens": {
+        "home": {
+            "welcomeBack": "Witamy ponownie!",
+            "quote": "Każdy dzień jest nową szansą, by zmienić swoje życie."
+        }
+    }
+}

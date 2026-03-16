@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 interface ScreenTitleProps {
   icon?: React.ReactNode;
@@ -7,9 +7,9 @@ interface ScreenTitleProps {
 
 export function ScreenTitle({ icon, title }: ScreenTitleProps) {
   return (
-    <Text className="mb-4 mt-2 text-2xl font-bold text-text-primary">
-      {icon && icon}
-      {title}
-    </Text>
+    <View className="flex flex-row gap-4 justify-start items-center mb-4">
+      {icon}
+      <Text className="text-3xl font-bold text-text-primary">{title}</Text>
+    </View>
   );
 }
