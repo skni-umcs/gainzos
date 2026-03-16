@@ -24,9 +24,18 @@ public class Workout {
     @Column(name = "volume", nullable = false, length = 255)
     private String volume;
 
+    @Column(name = "duration", nullable = false)
+    private Integer duration;
+
     @Column(name = "workout_template_id", nullable = false)
     private WorkoutTemplate workoutTemplate;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+    }
 }
