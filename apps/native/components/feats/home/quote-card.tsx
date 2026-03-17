@@ -1,5 +1,6 @@
-import { Text, View } from 'react-native'
+import { Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet } from 'react-native';
 
 
 interface QuoteCardProps {
@@ -8,31 +9,17 @@ interface QuoteCardProps {
 
 export function QuoteCard({ quote }: QuoteCardProps) {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        backgroundColor: 'rgba(120,40,200,0.08)',
-        borderWidth: 1,
-        borderColor: 'rgba(180,111,255,0.15)',
-        borderRadius: 16,
-        padding: 14,
-        gap: 10,
-        marginBottom: 22,
-      }}
-    >
+    <View className="relative flex-row items-stretch rounded-2xl border border-border bg-bg-surface-alt p-4 mb-6 overflow-hidden">
+      <LinearGradient colors={['#9b30ff', '#7c22d4']} style={StyleSheet.absoluteFillObject} />
+      <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(10, 10, 15, 0.8)' }]} />
+
       <LinearGradient
-        colors={['#9b30ff', 'rgba(155,48,255,0.1)']}
-        style={{ width: 3, borderRadius: 2, alignSelf: 'stretch' }}
+        colors={['#c084fc', 'rgba(192,132,252,0.15)']}
+        style={{ width: 3, borderRadius: 999, alignSelf: 'stretch', marginRight: 12 }}
       />
       <Text
-        style={{
-          fontFamily: 'Syne-Regular',
-          fontSize: 13,
-          fontStyle: 'italic',
-          color: 'rgba(220,180,255,0.85)',
-          lineHeight: 20,
-          flex: 1,
-        }}
+        className="flex-1 text-text-primary text-[14px] italic"
+        style={{ lineHeight: 21 }}
       >
         {quote}
       </Text>

@@ -1,66 +1,40 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 interface StatCardProps {
   Icon: React.ComponentType<{ size?: number; color?: string }>;
   value: string | number;
   label: string;
   accent: string;
-  bg: string;
+  bg: [string, string];
   topBar: [string, string];
 }
 
 export function StatCard({ Icon, value, label, accent, bg, topBar }: StatCardProps) {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'rgba(255,255,255,0.04)',
-        borderWidth: 1,
-        borderColor: 'rgba(180,111,255,0.12)',
-        borderRadius: 16,
-        overflow: 'hidden',
-      }}
-    >
+    <View className="flex-1 rounded-2xl overflow-hidden border border-border bg-bg-surface-alt">
+      <LinearGradient colors={bg} style={StyleSheet.absoluteFillObject} />
+      <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(10, 10, 15, 0.58)' }]} />
+
       <LinearGradient
         colors={topBar}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={{ height: 2 }}
+        style={{ height: 3 }}
       />
-      <View style={{ padding: 14 }}>
-        <View
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            backgroundColor: bg,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <Icon size={18} color={accent} />
+
+      <View className="p-4">
+        <View className="flex-row items-center mb-2">
+          <View
+            className="h-10 w-10 rounded-xl items-center justify-center mr-3 border"
+            style={{ borderColor: accent, backgroundColor: 'rgba(255,255,255,0.06)' }}
+          >
+            <Icon size={18} color={accent} />
+          </View>
+          <Text className="text-text-primary text-2xl font-bold">{value}</Text>
         </View>
-        <Text
-          style={{
-            fontFamily: 'Syne-ExtraBold',
-            fontSize: 22,
-            color: '#fff',
-            lineHeight: 24,
-            marginBottom: 3,
-          }}
-        >
-          {value}
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'DMmono',
-            fontSize: 10,
-            color: 'rgba(180,111,255,0.6)',
-            letterSpacing: 0.8,
-          }}
-        >
+        <Text className="text-text-secondary text-[11px]" style={{ letterSpacing: 0.8 }}>
           {label.toUpperCase()}
         </Text>
       </View>
