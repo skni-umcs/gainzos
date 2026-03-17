@@ -1,19 +1,32 @@
-import { View } from 'react-native';
-import { QuoteCard } from '@/components/feats/home/quote-card';
-import { ScreenTitle } from '@/components/ui/screen-title';
+import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Home } from 'lucide-react-native';
+import { HomeHeader } from '@/components/feats/home/header';
+import { QuoteCard } from '@/components/feats/home/quote-card';
+import { StatsList } from '@/components/feats/home/stats-list';
+import { LastWorkout } from '@/components/feats/home/last-workout';
+import { Greeting } from '@/components/feats/home/greeting';
+import { WeeklyActivityChart } from '@/components/feats/home/activity-chart';
+import { StartWorkoutButton } from '@/components/feats/home/start-training-button';
 
 export default function Index() {
   const { t } = useTranslation('translations', { keyPrefix: 'screens.home' });
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex-1 px-6 py-6 ">
-        <ScreenTitle icon={<Home size={24} color="white" />} title={t('welcomeBack')} />
-        <QuoteCard quote={t('quote')} />
-      </View>
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 16, paddingBottom: 32 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <HomeHeader />
+        <Greeting/>
+        <QuoteCard quote="Nie liczy się to, ile razy upadasz, ale ile razy się podnosisz." />
+        <StartWorkoutButton />
+        <StatsList/>
+        <LastWorkout />
+        <WeeklyActivityChart />
+      </ScrollView>
     </SafeAreaView>
   );
 }
