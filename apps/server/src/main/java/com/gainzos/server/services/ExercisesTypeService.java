@@ -25,6 +25,13 @@ public class ExercisesTypeService {
     public List<ExercisesTypeDTO> getAll() {
         return exercisesTypeRepository.findAll()
                 .stream()
+                .map(exercisesTypeMapper::toDTOWithoutImage)
+                .toList();
+    }
+
+    public List<ExercisesTypeDTO> getAllMobile() {
+        return exercisesTypeRepository.findAll()
+                .stream()
                 .map(exercisesTypeMapper::toDTO)
                 .toList();
     }

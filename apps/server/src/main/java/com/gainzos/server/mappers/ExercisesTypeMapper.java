@@ -8,4 +8,6 @@ import com.gainzos.server.entities.ExercisesType;
 public interface ExercisesTypeMapper {
     ExercisesTypeDTO toDTO(ExercisesType exercisesType);
     ExercisesType toEntity(ExercisesTypeDTO exercisesTypeDTO);
+    @Mapping(target = "image", ignore = true)
+    ExercisesTypeDTO toDTOWithoutImage(ExercisesType exercisesType);
 }

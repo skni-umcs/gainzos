@@ -35,6 +35,13 @@ public class ExercisesTypeController {
     }
 
     @PermitAll
+    @GetMapping(value = "/getAllMobile")
+    @Operation(summary = "Get all exercises types (with images for mobile)")
+    public ResponseEntity<List<ExercisesTypeDTO>> getAllMobile() {
+        return ResponseEntity.ok(service.getAllMobile());
+    }
+
+    @PermitAll
     @GetMapping(value = "/byId/{id}", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "Get exercise type by ID")
     public ResponseEntity<ExercisesTypeDTO> getById(@PathVariable Long id) {

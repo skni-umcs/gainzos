@@ -26,9 +26,25 @@ public class ExerciseService {
     private final MediaRepository mediaRepository;
     private final FileStorageService fileStorageService;
 
-    public List<ExerciseDTO> getAll() {
-        return exerciseRepository.findAll().stream()
-                .map(exercisesMapper::toDTO)
+    public List<ExerciseDTO> getAll(Long typeId, boolean isMobile) {
+        List<Exercise> exercises;
+        // ?type=id
+        if (typeId != null) {
+            exercises = exerciseRepository.findByExerciseType_Id(typeId);
+        } else {
+            exercises = exerciseRepository.findAll();
+        }
+        return exercises.stream()
+                .map(e -> {
+                    ExerciseDTO dto = exercisesMapper.toDTO(e);
+                    if (!isMobile) {
+                        return new ExerciseDTO(
+                            dto.id(), dto.name(), dto.description(), 
+                            dto.exercisesType(), null, dto.video()
+                        );
+                    }
+                    return dto;
+                })
                 .toList();
     }
 
@@ -43,12 +59,13 @@ public class ExerciseService {
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with name " + name + " not found"));
         return exercisesMapper.toDTO(e);
     }
-
+    /*
     public List<ExerciseDTO> getByType(Long typeId) {
         return exerciseRepository.findByExerciseType_Id(typeId).stream()
                 .map(exercisesMapper::toDTO)
                 .toList();
     }
+    */
 
     public ExerciseDTO addExercise(ExerciseDTO dto) {
         System.out.println(dto);
@@ -130,4 +147,5 @@ public class ExerciseService {
         }
         exerciseRepository.delete(e);
     }
+
 }

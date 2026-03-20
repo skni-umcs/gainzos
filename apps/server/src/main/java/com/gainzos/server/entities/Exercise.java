@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import com.gainzos.server.enums.MuscleGroup;
 
-
 @Entity
 @Table(name = "exercises")
 @Getter
@@ -16,23 +15,10 @@ import com.gainzos.server.enums.MuscleGroup;
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 255)
     private String name;
-
-    @Column(name = "description", nullable = false, length = 255)
     private String description;
-
-    @Column(name = "force", nullable = false, length = 50)
-    private String force;
-
-    @Column(name = "primary_muscle", nullable = false, length = 50)
-    private MuscleGroup primaryMuscle;
-
-    @Column(name = "secondary_muscle", nullable = true, length = 50)
-    private MuscleGroup secondaryMuscle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_type_id", nullable = false)

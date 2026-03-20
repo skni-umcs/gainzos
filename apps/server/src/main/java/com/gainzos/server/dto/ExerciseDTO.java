@@ -1,6 +1,5 @@
 package com.gainzos.server.dto;
 
-
 public record ExerciseDTO(
         Long id,
         String name,
@@ -8,4 +7,4 @@ public record ExerciseDTO(
         ExercisesTypeDTO exercisesType,
         MediaDTO image,
         MediaDTO video
-        ) {}
+) {}

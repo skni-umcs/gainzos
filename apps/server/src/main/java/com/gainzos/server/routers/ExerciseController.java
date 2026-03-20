@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import com.gainzos.server.services.ExerciseService;
 import com.gainzos.server.dto.ExerciseDTO;
 
-
 import java.util.List;
 
 @RestController
@@ -29,9 +28,18 @@ public class ExerciseController {
 
     @PermitAll
     @GetMapping(value = "/getAll", consumes = MediaType.ALL_VALUE)
-    @Operation(summary = "Get all exercises")
-    public ResponseEntity<List<ExerciseDTO>> getAllExercises(){
-        return ResponseEntity.ok(exerciseService.getAll());
+    @Operation(summary = "Get all exercises (without images)")
+    public ResponseEntity<List<ExerciseDTO>> getAllExercises(
+            @RequestParam(required = false) Long type) {
+        return ResponseEntity.ok(exerciseService.getAll(type, false));
+    }
+
+    @PermitAll
+    @GetMapping(value = "/getAllMobile", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "Get all exercises for mobile (with images)")
+    public ResponseEntity<List<ExerciseDTO>> getAllExercisesMobile(
+            @RequestParam(required = false) Long type) {
+        return ResponseEntity.ok(exerciseService.getAll(type, true));
     }
 
     @PermitAll
@@ -47,13 +55,14 @@ public class ExerciseController {
     public ResponseEntity<ExerciseDTO> getExerciseByName(@PathVariable String name) {
         return ResponseEntity.ok(exerciseService.getByName(name));
     }
-
+    /*
     @PermitAll
     @GetMapping(value = "/byType/{typeId}", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "Get exercise by type ID")
     public ResponseEntity<List<ExerciseDTO>> getExercisesByType(@PathVariable Long typeId) {
         return ResponseEntity.ok(exerciseService.getByType(typeId));
     }
+    */
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
