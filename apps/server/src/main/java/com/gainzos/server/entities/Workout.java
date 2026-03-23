@@ -18,7 +18,8 @@ public class Workout {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "volume", nullable = false, length = 255)
@@ -27,7 +28,8 @@ public class Workout {
     @Column(name = "duration", nullable = false)
     private Integer duration;
 
-    @Column(name = "workout_template_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workout_template_id", nullable = false)
     private WorkoutTemplate workoutTemplate;
 
     @Column(name = "created_at", nullable = false)

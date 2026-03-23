@@ -2,6 +2,7 @@ package com.gainzos.server.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import com.gainzos.server.enums.MuscleGroup;
+import java.util.List;
 
 @Entity
 @Table(name = "workout_templates")
@@ -26,12 +27,14 @@ public class WorkoutTemplate {
     @Column(name = "muscle_groups", nullable = false, length = 255)
     private MuscleGroup[] muscleGroups;
 
-    @Column(name = "owner_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic;
 
-    @Column(name = "item_ids", nullable = false) 
-    private WorkoutItem[] items;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workout_template_id", nullable = false)
+    private List<WorkoutItem> items;
 }

@@ -18,7 +18,7 @@ public class WorkoutItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "exercise_id", nullable = false)
+    @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
 
     @Column(name = "sets", nullable = false)
