@@ -7,6 +7,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { queryClient, asyncStoragePersister } from '@/lib/react-query/query-client';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { colors } from '@/theme/colors';
 
 export default function RootLayout() {
   return (
@@ -28,7 +29,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <LinearGradient
-      colors={['#1a0533', '#0A0A0F']}
+      colors={[colors.containerHighest, colors.containerHigh, colors.containerLow, colors.containerLowest]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
       style={StyleSheet.absoluteFill}

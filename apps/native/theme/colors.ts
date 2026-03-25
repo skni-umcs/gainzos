@@ -1,35 +1,47 @@
+
+
 export const colors = {
-  brand: "#7C3AED",
-  brandDark: "#5B21B6",
-  brandLight: "#A78BFA",
+  // ─── Surfaces ──────────────────────────────────────
+  base: '#0e0e11',
+  containerLow: '#131316',
+  containerHigh: '#1f1f23',
+  containerHighest: '#25252a',
+  containerLowest: '#000000',
+  variant: '#25252a',
 
-  bgApp: "#0A0A0F",
-  bgSurface: "#18181F",
-  bgSurfaceAlt: "#1F1F28",
-  bgMuted: "#27272F",
+  // ─── Primary ───────────────────────────────────────
+  primary: '#cc97ff',
+  primaryDim: '#9c48ea',
+  primaryFixed: '#e8d0ff',
+  primaryContainer: '#3d1a6e',
 
-  textPrimary: "#E4E4E7",
-  textSecondary: "#9CA3AF",
-  textOnBrand: "#FFFFFF",
+  // ─── Secondary ─────────────────────────────────────
+  secondary: '#af88ff',
+  secondaryDim: '#7c4dca',
+  secondaryContainer: '#2e1f4a',
 
-  border: "rgba(124, 58, 237, 0.2)",
-  inputBg: "#1A1A22",
-  inputBorder: "rgba(124, 58, 237, 0.15)",
-  ring: "#7C3AED",
+  // ─── Tertiary ──────────────────────────────────────
+  tertiary: '#c8b8ff',
+  tertiaryDim: '#8b6fd4',
+  tertiaryContainer: '#251d3d',
 
-  success: "#22C55E",
-  warning: "#F59E0B",
-  danger: "#EF4444",
+  // ─── Text ─────────────────────────────────────────
+  textPrimary: '#f0edf1',
+  textSecondary: '#acaaae',
+  textDisabled: '#6b696e',
+  textOnPrimary: '#1a0033',
 
-  tabBarBg: "#0A0A0F",
-  tabBarBorder: "rgba(124, 58, 237, 0.2)",
-  tabIconActive: "#7C3AED",
-  tabIconInactive: "#9CA3AF",
+  // ─── Outline / Borders ────────────────────────────
+  outlineVariant: '#48474b',
+  outlineFocus: '#af88ff',
 
-  primary: "#7C3AED",
-  secondary: "#1F1F28",
-  error: "#EF4444",
-  background: "#0A0A0F",
-  surface: "#18181F",
-  text: "#E4E4E7",
-};
+  // ─── Semantic ─────────────────────────────────────
+  success: '#4ade80',
+  successDim: '#16a34a',
+  warning: '#fbbf24',
+  warningDim: '#d97706',
+  error: '#f87171',
+  errorDim: '#dc2626',
+  info: '#60a5fa',
+} as const;
+

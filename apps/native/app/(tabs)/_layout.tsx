@@ -1,60 +1,54 @@
-import { Tabs } from "expo-router";
-import { ChartBar, Dock, Home, User } from "lucide-react-native";
-import { StyleSheet, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "@/theme/colors";
-
+import { Tabs } from 'expo-router';
+import { ChartBar, Dock, Home, User } from 'lucide-react-native';
+import { StyleSheet, View, Platform } from 'react-native';
+import { colors } from '@/theme/colors';
+import { Header } from '@/components/layout/header';
 
 export default function TabLayout() {
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["#22073d", "#12061f", colors.bgApp]}
-        start={{ x: 0.2, y: 0 }}
-        end={{ x: 0.8, y: 1 }}
-        style={StyleSheet.absoluteFill}
-      />
+      <Header />
       <Tabs
         screenOptions={{
           headerShown: false,
           sceneStyle: styles.scene,
           tabBarStyle: styles.tabBar,
-          tabBarActiveTintColor: colors.tabIconActive,
-          tabBarInactiveTintColor: colors.tabIconInactive,
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.textDisabled,
         }}
       >
         <Tabs.Screen
           name="index"
           options={{
-            title: "Home",
+            title: 'Home',
             tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
           }}
         />
         <Tabs.Screen
           name="analytics/index"
           options={{
-            title: "Analytics",
+            title: 'Analytics',
             tabBarIcon: ({ color, size }) => <ChartBar color={color} size={size} />,
           }}
         />
         <Tabs.Screen
           name="profile/index"
           options={{
-            title: "Profile",
+            title: 'Profile',
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
           }}
         />
         <Tabs.Screen
           name="templates/index"
           options={{
-            title: "Templates",
+            title: 'Templates',
             tabBarIcon: ({ color, size }) => <Dock color={color} size={size} />,
           }}
         />
         <Tabs.Screen
           name="workout/index"
           options={{
-            title: "Workout",
+            title: 'Workout',
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
           }}
         />
@@ -64,16 +58,15 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scene: {
-    backgroundColor: "transparent",
-  },
+  container: { flex: 1 },
+  scene: { backgroundColor: 'transparent' },
   tabBar: {
-    backgroundColor: colors.tabBarBg,
+    backgroundColor: colors.containerHigh,
+    borderRadius: 22,
+    marginBottom: Platform.OS === 'ios' ? 0 : 12,
+    height: 60,
+    overflow: 'hidden',
     borderTopWidth: 1,
-    borderColor: colors.tabBarBorder,
-    elevation: 5,
+    borderTopColor: colors.outlineVariant,
   },
 });
