@@ -93,6 +93,10 @@ export function DeleteExerciseForm({ exerciseId }: DeleteExerciseFormProps) {
     defaultValues: {
       id: exercise?.id || null,
       name: exercise?.name || '',
+      description: exercise?.description || '',
+      force: exercise?.force || '',
+      primaryMuscle: exercise?.primaryMuscle || '',
+      secondaryMuscle: exercise?.secondaryMuscle || '',
       image: exercise?.image || { id: 0 },
       video: exercise?.video || { id: 0 },
     },
@@ -103,6 +107,10 @@ export function DeleteExerciseForm({ exerciseId }: DeleteExerciseFormProps) {
       form.reset({
         id: exercise.id,
         name: exercise.name,
+        description: exercise.description || '',
+        force: exercise.force || '',
+        primaryMuscle: exercise.primaryMuscle || '',
+        secondaryMuscle: exercise.secondaryMuscle || '',
         image: exercise.image,
         video: exercise.video,
       });

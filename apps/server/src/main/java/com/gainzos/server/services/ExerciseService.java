@@ -61,6 +61,9 @@ public class ExerciseService {
         Exercise e = new Exercise();
         e.setName(dto.name());
         e.setDescription(dto.description());
+        e.setForce(dto.force());
+        e.setPrimaryMuscle(dto.primaryMuscle());
+        e.setSecondaryMuscle(dto.secondaryMuscle());
         e.setExerciseType(type);
 
         if (dto.image() != null && dto.image().id() != null) {
@@ -88,6 +91,9 @@ public class ExerciseService {
 
         e.setName(dto.name());
         e.setDescription(dto.description());
+        e.setForce(dto.force());
+        e.setPrimaryMuscle(dto.primaryMuscle());
+        e.setSecondaryMuscle(dto.secondaryMuscle());
 
         if (dto.exercisesType() != null && dto.exercisesType().id() != null) {
             ExercisesType type = exercisesTypeRepository.findById(dto.exercisesType().id())

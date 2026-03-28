@@ -67,6 +67,9 @@ export function EditExerciseForm({ exerciseId }: EditExerciseFormProps) {
       id: exercise?.id || null,
       name: exercise?.name || '',
       description: exercise?.description || '',
+      force: exercise?.force || '',
+      primaryMuscle: exercise?.primaryMuscle || '',
+      secondaryMuscle: exercise?.secondaryMuscle || '',
       image: exercise?.image || { id: 0 },
       video: exercise?.video || { id: 0 },
     },
@@ -78,6 +81,9 @@ export function EditExerciseForm({ exerciseId }: EditExerciseFormProps) {
         id: exercise.id,
         name: exercise.name,
         description: exercise.description || '',
+        force: exercise.force || '',
+        primaryMuscle: exercise.primaryMuscle || '',
+        secondaryMuscle: exercise.secondaryMuscle || '',
         image: exercise.image,
         video: exercise.video,
       });
@@ -115,6 +121,9 @@ export function EditExerciseForm({ exerciseId }: EditExerciseFormProps) {
         id: exercise.id,
         name: data.name,
         description: data.description,
+        force: data.force,
+        primaryMuscle: data.primaryMuscle,
+        secondaryMuscle: data.secondaryMuscle,
         exercisesType: {
           id: Number(exerciseId),
           name: exercise.name ?? null,
@@ -229,6 +238,57 @@ export function EditExerciseForm({ exerciseId }: EditExerciseFormProps) {
                 <FormControl>
                   <Input
                     placeholder={tExercises('fields.description_placeholder')}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="force"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Force</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter force type (e.g., Push, Pull)"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="primaryMuscle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Primary Muscle</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter primary muscle group"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="secondaryMuscle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Secondary Muscle</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter secondary muscle group (optional)"
                     {...field}
                   />
                 </FormControl>

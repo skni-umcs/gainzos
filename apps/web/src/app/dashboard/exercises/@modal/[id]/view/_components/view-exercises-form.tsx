@@ -42,6 +42,10 @@ export function ViewExercisesForm({ exerciseId }: ViewExerciseFormProps) {
     defaultValues: {
       id: exercise?.id || null,
       name: exercise?.name || '',
+      description: exercise?.description || '',
+      force: exercise?.force || '',
+      primaryMuscle: exercise?.primaryMuscle || '',
+      secondaryMuscle: exercise?.secondaryMuscle || '',
       image: exercise?.image || { id: 0 },
     },
   });
@@ -51,6 +55,10 @@ export function ViewExercisesForm({ exerciseId }: ViewExerciseFormProps) {
       form.reset({
         id: exercise.id,
         name: exercise.name,
+        description: exercise.description || '',
+        force: exercise.force || '',
+        primaryMuscle: exercise.primaryMuscle || '',
+        secondaryMuscle: exercise.secondaryMuscle || '',
         image: exercise.image,
       });
     }
@@ -106,6 +114,60 @@ export function ViewExercisesForm({ exerciseId }: ViewExerciseFormProps) {
                   <Input placeholder={tExercise('fields.description_placeholder')}
                          {...field}
                          readOnly={true} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="force"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Force</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Force type"
+                    {...field}
+                    readOnly={true}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="primaryMuscle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Primary Muscle</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Primary muscle group"
+                    {...field}
+                    readOnly={true}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="secondaryMuscle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Secondary Muscle</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Secondary muscle group"
+                    {...field}
+                    readOnly={true}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
