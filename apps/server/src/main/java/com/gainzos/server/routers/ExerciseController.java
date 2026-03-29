@@ -22,12 +22,13 @@ import java.util.List;
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
+
 @RequiredArgsConstructor
 @Tag(name = "Exercises", description = "Endpoints for managing exercises")
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
-    @@PermitAll
+    @PermitAll
     @GetMapping(value = "/getAll", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "Get all exercises (without media)", description = "Optional query param 'typeId' to filter by type.")
     public ResponseEntity<List<ExerciseDTO>> getAllExercises(

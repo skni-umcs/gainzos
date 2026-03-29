@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.gainzos.server.services.UserService;
 import com.gainzos.server.dto.UserDTO;
+import org.springframework.http.HttpStatus;
+import com.gainzos.server.dto.UserSessionDTO;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ import org.mapstruct.Mapper;
 
 import com.gainzos.server.dto.ExercisesTypeDTO;
 import com.gainzos.server.entities.ExercisesType;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {MediaMapper.class})
 public interface ExercisesTypeMapper {
