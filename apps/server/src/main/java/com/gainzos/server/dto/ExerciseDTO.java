@@ -1,5 +1,6 @@
 package com.gainzos.server.dto;
 
+import com.gainzos.server.enums.MuscleGroup;
 
 public record ExerciseDTO(
         Long id,
