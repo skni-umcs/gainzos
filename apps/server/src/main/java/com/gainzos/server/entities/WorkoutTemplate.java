@@ -34,7 +34,7 @@ public class WorkoutTemplate {
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_template_id", nullable = false)
     private List<WorkoutItem> items;
 }

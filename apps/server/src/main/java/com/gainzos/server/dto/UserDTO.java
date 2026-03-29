@@ -1,11 +1,14 @@
 package com.gainzos.server.dto;
 
+import java.time.LocalDateTime;
+
 public record UserDTO(
         Long id,
         String username,
         String email,
-        String password,
+        String password, 
         String role,
-        java.time.LocalDateTime createdAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
 }
