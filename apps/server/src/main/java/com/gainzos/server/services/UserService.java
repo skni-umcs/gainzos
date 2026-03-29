@@ -39,6 +39,18 @@ public class UserService {
     user.setRole("ADMIN");
     userRepository.save(user);
   }
+  public void register(UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.email()).isPresent()) {
+            throw new IllegalArgumentException("Email already in use");
+        }
+        User user = User.builder()
+                .email(userDTO.email())
+                .username(userDTO.username())
+                .password(passwordEncoder.encode(userDTO.password()))
+                .role(userDTO.role())
+                .build();
+        userRepository.save(user);
+    }
 
   public UserSessionDTO getSession(String email) {
     return userRepository.findByEmail(email)

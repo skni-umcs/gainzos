@@ -29,9 +29,16 @@ public class ExercisesTypeController {
 
     @PermitAll
     @GetMapping(value = "/getAll", consumes = MediaType.ALL_VALUE)
-    @Operation(summary = "Get all exercises types")
+    @Operation(summary = "Get all exercises types (without media)")
     public ResponseEntity<List<ExercisesTypeDTO>> getAll() {
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @PermitAll
+    @GetMapping(value = "/getAllMobile", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "Get all exercises types (with media)")
+    public ResponseEntity<List<ExercisesTypeDTO>> getAllMobile() {
+        return ResponseEntity.ok(service.getAllMobile());
     }
 
     @PermitAll

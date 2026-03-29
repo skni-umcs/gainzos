@@ -27,11 +27,20 @@ import java.util.List;
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
-    @PermitAll
+    @@PermitAll
     @GetMapping(value = "/getAll", consumes = MediaType.ALL_VALUE)
-    @Operation(summary = "Get all exercises")
-    public ResponseEntity<List<ExerciseDTO>> getAllExercises(){
-        return ResponseEntity.ok(exerciseService.getAll());
+    @Operation(summary = "Get all exercises (without media)", description = "Optional query param 'typeId' to filter by type.")
+    public ResponseEntity<List<ExerciseDTO>> getAllExercises(
+            @RequestParam(required = false) Long typeId) {
+        return ResponseEntity.ok(exerciseService.getAll(typeId));
+    }
+
+    @PermitAll
+    @GetMapping(value = "/getAllMobile", consumes = MediaType.ALL_VALUE)
+    @Operation(summary = "Get all exercises (with media)", description = "Optional query param 'typeId' to filter by type.")
+    public ResponseEntity<List<ExerciseDTO>> getAllExercisesMobile(
+            @RequestParam(required = false) Long typeId) {
+        return ResponseEntity.ok(exerciseService.getAllMobile(typeId));
     }
 
     @PermitAll
@@ -47,14 +56,15 @@ public class ExerciseController {
     public ResponseEntity<ExerciseDTO> getExerciseByName(@PathVariable String name) {
         return ResponseEntity.ok(exerciseService.getByName(name));
     }
-
+    /*
     @PermitAll
     @GetMapping(value = "/byType/{typeId}", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "Get exercise by type ID")
     public ResponseEntity<List<ExerciseDTO>> getExercisesByType(@PathVariable Long typeId) {
         return ResponseEntity.ok(exerciseService.getByType(typeId));
     }
-
+    */
+   
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     @Operation(summary = "Add a new exercise")

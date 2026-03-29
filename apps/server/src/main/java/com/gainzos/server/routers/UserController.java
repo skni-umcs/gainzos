@@ -26,6 +26,19 @@ public class UserController {
     List<UserDTO> users = userService.getAll();
     return ResponseEntity.ok(users);
   }
+  @PostMapping("/register")
+    @Operation(summary = "Register a new user", description = "Creates a new user account")
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        userService.register(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    }
+
+    @GetMapping("/session")
+    @Operation(summary = "Get user session", description = "Retrieves session data for a given email")
+    public ResponseEntity<UserSessionDTO> getSession(@RequestParam String email) {
+        // W prawdziwej aplikacji email prawdopodobnie będziesz wyciągać z tokenu JWT (np. z obiektu Principal)
+        return ResponseEntity.ok(userService.getSession(email));
+    }
 }
 
 
