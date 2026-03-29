@@ -13,4 +13,8 @@ public interface ExercisesMapper {
 
     @Mapping(source = "exercisesType", target = "exerciseType")
     Exercise toEntity(ExerciseDTO exerciseDTO);
+
+    @Mapping(target = "image", ignore = true)
+    @Mapping(target = "video", ignore = true)
+    ExerciseDTO toDTONoMedia(Exercise exercise);
 }

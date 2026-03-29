@@ -25,6 +25,13 @@ public class ExercisesTypeService {
     public List<ExercisesTypeDTO> getAll() {
         return exercisesTypeRepository.findAll()
                 .stream()
+                .map(exercisesTypeMapper::toDTONoMedia)
+                .toList();
+    }
+
+    public List<ExercisesTypeDTO> getAllMobile() {
+        return exercisesTypeRepository.findAll()
+                .stream()
                 .map(exercisesTypeMapper::toDTO)
                 .toList();
     }
@@ -36,8 +43,10 @@ public class ExercisesTypeService {
     }
 
     public ExercisesTypeDTO addExercisesType(ExercisesTypeDTO dto) {
-        ExercisesType entity = new ExercisesType();
-        entity.setName(dto.name());
+        // Użycie wzorca Builder z encji
+        ExercisesType entity = ExercisesType.builder()
+                .name(dto.name())
+                .build();
 
         if (dto.image() != null && dto.image().id() != null) {
             Media media = mediaRepository.findById(dto.image().id())
@@ -80,5 +89,4 @@ public class ExercisesTypeService {
         }
         exercisesTypeRepository.delete(type);
     }
-
 }
