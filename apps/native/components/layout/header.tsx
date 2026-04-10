@@ -9,16 +9,13 @@ export function Header() {
 
   return (
     <View style={{ paddingTop: insets.top }} className="bg-transparent">
-      {/* Top fade for depth */}
       <LinearGradient
         colors={[`${colors.base}8C`, `${colors.base}00`]} // półprzezroczysty do transparent
         style={StyleSheet.absoluteFill}
         pointerEvents="none"
       />
 
-      {/* Main row */}
       <View className="flex-row items-center justify-between px-5 pb-3 pt-2">
-        {/* Logo + wordmark */}
         <View className="flex-row items-center gap-2.5">
           <View
             className="w-[34px] h-[34px] rounded-[10px] items-center justify-center overflow-hidden border"
