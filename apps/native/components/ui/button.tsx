@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils/cn';
 
 interface ButtonProps extends PressableProps {
   textClassName?: string;
-  gradient?: [string, string];
+  gradient?: [string, string, ...string[]];
   children: React.ReactNode;
 }
 

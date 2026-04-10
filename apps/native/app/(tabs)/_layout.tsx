@@ -1,29 +1,28 @@
 import { Tabs } from 'expo-router';
 import { ChartBar, Dock, Home, User } from 'lucide-react-native';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors } from '@/theme/colors';
 import { Header } from '@/components/layout/header';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <Header />
       <Tabs
         screenOptions={{
           headerShown: false,
           sceneStyle: styles.scene,
-          tabBarStyle: styles.tabBar,
+          tabBarStyle: [
+            styles.tabBar,
+            { height: 60 + insets.bottom, paddingBottom: insets.bottom },
+          ],
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.textDisabled,
         }}
       >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: 'Home',
-            tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
-          }}
-        />
         <Tabs.Screen
           name="analytics/index"
           options={{
@@ -36,6 +35,13 @@ export default function TabLayout() {
           options={{
             title: 'Profile',
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+          }}
+        />
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
           }}
         />
         <Tabs.Screen
@@ -53,7 +59,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -62,10 +68,7 @@ const styles = StyleSheet.create({
   scene: { backgroundColor: 'transparent' },
   tabBar: {
     backgroundColor: colors.containerHigh,
-    borderRadius: 22,
-    marginBottom: Platform.OS === 'ios' ? 0 : 12,
     height: 60,
-    overflow: 'hidden',
     borderTopWidth: 1,
     borderTopColor: colors.outlineVariant,
   },

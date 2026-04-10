@@ -30,8 +30,8 @@ public class WorkoutItemService {
         WorkoutTemplate template = workoutTemplateRepository.findById(templateId)
                 .orElseThrow(() -> new EntityNotFoundException("Template not found: " + templateId));
 
-        Exercise exercise = exerciseRepository.findById(dto.exerciseId())
-                .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + dto.exerciseId()));
+        Exercise exercise = exerciseRepository.findById(dto.exercise().id())
+                .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + dto.exercise().id()));
 
         WorkoutItem newItem = WorkoutItem.builder()
                 .exercise(exercise)
@@ -55,9 +55,9 @@ public class WorkoutItemService {
         WorkoutItem item = workoutItemRepository.findById(dto.id())
                 .orElseThrow(() -> new EntityNotFoundException("Workout item not found: " + dto.id()));
 
-        if (dto.exerciseId() != null && !dto.exerciseId().equals(item.getExercise().getId())) {
-            Exercise exercise = exerciseRepository.findById(dto.exerciseId())
-                    .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + dto.exerciseId()));
+        if (dto.exercise() != null && !dto.exercise().id().equals(item.getExercise().getId())) {
+            Exercise exercise = exerciseRepository.findById(dto.exercise().id())
+                    .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + dto.exercise().id()));
             item.setExercise(exercise);
         }
 

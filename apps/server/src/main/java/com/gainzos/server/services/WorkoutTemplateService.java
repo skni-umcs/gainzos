@@ -92,11 +92,12 @@ public class WorkoutTemplateService {
     }
 
     private List<WorkoutItem> buildWorkoutItems(List<WorkoutItemDTO> itemDTOs) {
-        if (itemDTOs == null) return new java.util.ArrayList<>();
+        if (itemDTOs == null)
+            return new java.util.ArrayList<>();
 
         return itemDTOs.stream().map(itemDto -> {
-            Exercise exercise = exerciseRepository.findById(itemDto.exerciseId())
-                    .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + itemDto.exerciseId()));
+            Exercise exercise = exerciseRepository.findById(itemDto.exercise().id())
+                    .orElseThrow(() -> new EntityNotFoundException("Exercise not found: " + itemDto.exercise().id()));
 
             return WorkoutItem.builder()
                     .exercise(exercise)

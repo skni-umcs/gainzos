@@ -8,7 +8,7 @@ export function StartTrainingButton() {
       <Button 
       onPress={() => console.log("DZIALA PRZYCISK")}
       gradient={[colors.primary, colors.primaryDim, colors.tertiary]}>
-        Start Training
+        Rozpocznij trening
       </Button>
     </View>
   );
@@ -17,6 +17,7 @@ export function StartTrainingButton() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    width: '100%', // 🔥 TO BYŁO KLUCZOWE
+    marginBottom: 20,
+    width: '100%',
   },
 });
