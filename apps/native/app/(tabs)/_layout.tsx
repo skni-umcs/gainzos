@@ -52,6 +52,12 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
+          name="templates/creator/index"
+          options={{
+            href: null,
+          }}
+        />
+        <Tabs.Screen
           name="workout/index"
           options={{
             title: 'Workout',

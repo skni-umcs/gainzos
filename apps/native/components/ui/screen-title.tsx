@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     gap: 2,
     marginHorizontal: 10,
-    marginTop: 12,
+    marginTop: 0,
     marginBottom: 28,
   },
   label: {

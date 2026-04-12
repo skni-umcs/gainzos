@@ -22,7 +22,7 @@ export async function apiFetch(url: string, options: ApiFetchOptions = {}) {
         mergedHeaders.set("Content-Type", "application/json")
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api${url}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/api${url}`, {
         method,
         headers: mergedHeaders,
         body: hasJsonBody ? JSON.stringify(body) : body ?? undefined,

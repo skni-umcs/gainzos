@@ -35,35 +35,135 @@ const templates: Template[] = [
     id: 1,
     title: 'Push Day',
     workoutItems: [
-      { id: 1, exercise: buildExercise(1, 'Bench Press'), sets: 4, reps: 8 },
-      { id: 2, exercise: buildExercise(2, 'Overhead Press'), sets: 4, reps: 10 },
-      { id: 3, exercise: buildExercise(3, 'Incline Dumbbell Press'), sets: 3, reps: 12 },
-      { id: 4, exercise: buildExercise(4, 'Triceps Pushdown'), sets: 3, reps: 15 },
+      {
+        id: 1,
+        exercise: buildExercise(1, 'Bench Press'),
+        sets: 4,
+        reps: 8,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 80,
+      },
+      {
+        id: 2,
+        exercise: buildExercise(2, 'Overhead Press'),
+        sets: 4,
+        reps: 10,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 60,
+      },
+      {
+        id: 3,
+        exercise: buildExercise(3, 'Incline Dumbbell Press'),
+        sets: 3,
+        reps: 12,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 40,
+      },
+      {
+        id: 4,
+        exercise: buildExercise(4, 'Triceps Pushdown'),
+        sets: 3,
+        reps: 15,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 50,
+      },
     ],
   },
   {
     id: 2,
     title: 'Pull Day',
     workoutItems: [
-      { id: 5, exercise: buildExercise(5, 'Deadlift'), sets: 4, reps: 6 },
-      { id: 6, exercise: buildExercise(6, 'Bent Over Row'), sets: 4, reps: 10 },
-      { id: 7, exercise: buildExercise(7, 'Lat Pulldown'), sets: 3, reps: 12 },
-      { id: 8, exercise: buildExercise(8, 'Barbell Curl'), sets: 3, reps: 14 },
+      {
+        id: 5,
+        exercise: buildExercise(5, 'Deadlift'),
+        sets: 4,
+        reps: 6,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 100,
+      },
+      {
+        id: 6,
+        exercise: buildExercise(6, 'Bent Over Row'),
+        sets: 4,
+        reps: 10,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 70,
+      },
+      {
+        id: 7,
+        exercise: buildExercise(7, 'Lat Pulldown'),
+        sets: 3,
+        reps: 12,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 50,
+      },
+      {
+        id: 8,
+        exercise: buildExercise(8, 'Barbell Curl'),
+        sets: 3,
+        reps: 14,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 30,
+      },
     ],
   },
   {
     id: 3,
     title: 'Leg Day',
     workoutItems: [
-      { id: 9, exercise: buildExercise(9, 'Back Squat'), sets: 4, reps: 8 },
-      { id: 10, exercise: buildExercise(10, 'Romanian Deadlift'), sets: 4, reps: 10 },
-      { id: 11, exercise: buildExercise(11, 'Walking Lunges'), sets: 3, reps: 12 },
-      { id: 12, exercise: buildExercise(12, 'Standing Calf Raise'), sets: 4, reps: 15 },
+      {
+        id: 9,
+        exercise: buildExercise(9, 'Back Squat'),
+        sets: 4,
+        reps: 8,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 100,
+      },
+      {
+        id: 10,
+        exercise: buildExercise(10, 'Romanian Deadlift'),
+        sets: 4,
+        reps: 10,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 80,
+      },
+      {
+        id: 11,
+        exercise: buildExercise(11, 'Walking Lunges'),
+        sets: 3,
+        reps: 12,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 50,
+      },
+      {
+        id: 12,
+        exercise: buildExercise(12, 'Standing Calf Raise'),
+        sets: 4,
+        reps: 15,
+        durationSeconds: 0,
+        restTimeSeconds: 120,
+        weight: 30,
+      },
     ],
   },
 ];
 
-export function TemplateList() {
+interface TemplateListProps {
+  onAddTemplate: () => void;
+}
+
+export function TemplateList({ onAddTemplate }: TemplateListProps) {
   return (
     <View style={styles.container}>
       {templates.map((template) => (
@@ -74,7 +174,7 @@ export function TemplateList() {
           onStartWorkout={() => {}}
         />
       ))}
-      <AddTemplateCard onPress={() => {}} />
+      <AddTemplateCard onPress={onAddTemplate} />
     </View>
   );
 }
