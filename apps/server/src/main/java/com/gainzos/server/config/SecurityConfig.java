@@ -23,7 +23,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
@@ -37,35 +37,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login", "/auth/logout", "/auth/register", "/auth/validate").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginProcessingUrl("/auth/login")
-                .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
-                .failureHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/auth/logout")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .sessionFixation(fixation -> fixation.newSession()) // nowa sesja po logowaniu
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-            )
-            .addFilterAfter(roleRefreshFilter, UsernamePasswordAuthenticationFilter.class)
-            .csrf(csrf -> csrf.disable())
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .accessDeniedHandler((req, res, e) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
-            );
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .formLogin(form -> form
+                        .loginProcessingUrl("/auth/login")
+                        .successHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
+                        .failureHandler((req, res, ex) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionFixation(fixation -> fixation.newSession()) // nowa sesja po logowaniu
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false))
+                .addFilterAfter(roleRefreshFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(csrf -> csrf.disable())
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                        .accessDeniedHandler((req, res, e) -> res.sendError(HttpServletResponse.SC_FORBIDDEN)));
 
         return http.build();
     }

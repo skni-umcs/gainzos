@@ -6,7 +6,7 @@ export const ExerciseTypeSchema = z.object({
   name: z.string().min(1).max(100),
   image: z.object({
     id: z.number(),
-  })
+  }).optional(),
 });
 
 export type ExerciseType = z.infer<typeof ExerciseTypeSchema>;

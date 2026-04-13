@@ -9,7 +9,7 @@ export const api = {
         getAll : () => apiFetch("/exercises/getAll"),
     },
     exerciseTypes: {
-        getAll : () => apiFetch("/exercises-types/getAll"),
+        getAll : () => apiFetch("/exercises-type/getAllMobile"),
     },
     auth: {
         login: (email: string, password: string) => apiFetch("/auth/login", {

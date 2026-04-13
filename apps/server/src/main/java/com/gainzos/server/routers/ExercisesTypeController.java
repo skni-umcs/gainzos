@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(
-        value = "/exercises-types",
+        value = "/exercises-type",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
@@ -38,6 +38,8 @@ public class ExercisesTypeController {
     @GetMapping(value = "/getAllMobile", consumes = MediaType.ALL_VALUE)
     @Operation(summary = "Get all exercises types (with media)")
     public ResponseEntity<List<ExercisesTypeDTO>> getAllMobile() {
+        System.out.println("Received request to get all exercise types for mobile");
+        System.out.println(service.getAllMobile());
         return ResponseEntity.ok(service.getAllMobile());
     }
 

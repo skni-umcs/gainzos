@@ -1,6 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AddExerciseCard } from '@/components/templates/creator/add-exercise-card';
+import { AddExercisePortal } from '@/components/templates/creator/add-exercise-portal';
 import { ScreenTitle } from '@/components/ui/screen-title';
 import { useTemplateStore } from '@/lib/store/template';
 import { colors } from '@/theme/colors';
@@ -8,6 +9,7 @@ import { colors } from '@/theme/colors';
 export function CreateTemplateScreen({ onClose }: { onClose: () => void }) {
   const draft = useTemplateStore((state) => state.draft);
   const ensureFresh = useTemplateStore((state) => state.ensureFresh);
+  const [isAddExercisePortalOpen, setIsAddExercisePortalOpen] = useState(false);
 
   useEffect(() => {
     ensureFresh();
@@ -46,7 +48,7 @@ export function CreateTemplateScreen({ onClose }: { onClose: () => void }) {
         <View className='flex-1 flex-row justify-between'>
           <ScreenTitle title="Tworzenie profilu" description="Stwórz własny profil" />
           <Pressable onPress={onClose} style={styles.backButton}>
-            <Text style={styles.backButtonText}>← Wróć</Text>
+            <Text style={styles.backButtonText}>Wróć</Text>
           </Pressable>
         </View>
 
@@ -71,7 +73,12 @@ export function CreateTemplateScreen({ onClose }: { onClose: () => void }) {
           </View>
         ))}
 
-        <AddExerciseCard onPress={() => {}} />
+        <AddExerciseCard onPress={() => setIsAddExercisePortalOpen(true)} />
+
+        <AddExercisePortal
+          isVisible={isAddExercisePortalOpen}
+          onClose={() => setIsAddExercisePortalOpen(false)}
+        />
 
         <Pressable style={styles.saveButton}>
           <Text style={styles.saveButtonText}>Zapisz profil</Text>
@@ -140,6 +147,12 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: 14,
     fontWeight: '700',
+  },
+  selectedTypeText: {
+    marginTop: 10,
+    color: colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '500',
   },
   saveButton: {
     marginTop: 20,
