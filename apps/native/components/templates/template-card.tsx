@@ -30,7 +30,7 @@ export function TemplateCard({ title, workoutItems, onStartWorkout }: TemplateCa
 
       <Button
         onPress={onStartWorkout}
-        gradient={[colors.primary, colors.primaryDim, colors.tertiary]}
+        gradient={[colors.primary, colors.primaryLight, colors.secondary]}
       >
         Start Workout
       </Button>
@@ -40,8 +40,8 @@ export function TemplateCard({ title, workoutItems, onStartWorkout }: TemplateCa
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: `${colors.containerHigh}CC`,
-    borderColor: `${colors.outlineVariant}A0`,
+    backgroundColor: `${colors.surface}CC`,
+    borderColor: `${colors.border}A0`,
     borderWidth: 1,
     borderRadius: 16,
     padding: 16,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 22,
     fontWeight: '800',
     letterSpacing: 0.2,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   countText: {
-    color: colors.primaryFixed,
+    color: colors.primary,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   exerciseName: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 15,
     fontWeight: '500',
     lineHeight: 22,

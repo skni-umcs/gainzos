@@ -10,7 +10,7 @@ interface SelectExerciseTypeProps {
 }
 
 export function SelectExerciseType({ onSelect, selected }: SelectExerciseTypeProps) {
-  const placeholderImage = require('../../../assets/placeholder.png');
+  const placeholderImage = require('../../assets/placeholder.png');
 
   const { data: exerciseTypes = [] } = useQuery({
     queryKey: ['exerciseTypes'],
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
   },
   button: {
     borderWidth: 1,
-    borderColor: `${colors.outlineVariant}70`,
+    borderColor: `${colors.border}70`,
     borderRadius: 14,
     overflow: 'hidden',
-    backgroundColor: colors.containerHighest,
+    backgroundColor: colors.surface,
   },
   buttonSelected: {
     borderColor: colors.primary,
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
   },
   scrim: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: `${colors.base}88`,
+    backgroundColor: `${colors.background}88`,
   },
   scrimSelected: {
-    backgroundColor: `${colors.primaryContainer}99`,
+    backgroundColor: `${colors.primaryLight}99`,
   },
   selectedDot: {
     position: 'absolute',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   label: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 12,
     fontFamily: 'Syne_600SemiBold',
     lineHeight: 15,

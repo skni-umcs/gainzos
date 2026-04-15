@@ -7,7 +7,7 @@ export function StartTrainingButton() {
     <View style={styles.container}>
       <Button 
       onPress={() => console.log("DZIALA PRZYCISK")}
-      gradient={[colors.primary, colors.primaryDim, colors.tertiary]}>
+      gradient={[colors.primary, colors.secondary]}>
         Rozpocznij trening
       </Button>
     </View>

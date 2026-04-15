@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AddExerciseCard } from '@/components/templates/creator/add-exercise-card';
-import { AddExercisePortal } from '@/components/templates/creator/add-exercise-portal';
+import { AddExerciseCard } from '@/components/template-creator/add-exercise-card';
+import { AddExercisePortal } from '@/components/template-creator/add-exercise-portal';
 import { ScreenTitle } from '@/components/ui/screen-title';
 import { useTemplateStore } from '@/lib/store/template';
 import { colors } from '@/theme/colors';
@@ -45,7 +45,7 @@ export function CreateTemplateScreen({ onClose }: { onClose: () => void }) {
   return (
     <View style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
-        <View className='flex-1 flex-row justify-between'>
+        <View style={styles.headerRow}>
           <ScreenTitle title="Tworzenie profilu" description="Stwórz własny profil" />
           <Pressable onPress={onClose} style={styles.backButton}>
             <Text style={styles.backButtonText}>Wróć</Text>
@@ -97,18 +97,23 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 32,
   },
+  headerRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   backButton: {
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 10,
     marginBottom: 12,
-    backgroundColor: colors.containerHigh,
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
+    borderColor: colors.border,
   },
   backButtonText: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 14,
     fontWeight: '700',
   },
@@ -116,13 +121,13 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    backgroundColor: colors.containerHigh,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
     padding: 16,
     gap: 8,
   },
   cardTitle: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 16,
     fontWeight: '700',
   },
@@ -137,14 +142,14 @@ const styles = StyleSheet.create({
   },
   itemRow: {
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
+    borderColor: colors.border,
     borderRadius: 10,
     padding: 10,
     gap: 2,
-    backgroundColor: colors.containerLow,
+    backgroundColor: colors.surface,
   },
   itemTitle: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 14,
     fontWeight: '700',
   },
@@ -162,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   saveButtonText: {
-    color: colors.textOnPrimary,
+    color: colors.text,
     fontSize: 15,
     fontWeight: '800',
   },

@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { Portal } from '@gorhom/portal';
 
-import { SelectExerciseType } from '@/components/templates/creator/select-exercise-type';
+import { SelectExerciseType } from '@/components/template-creator/select-exercise-type';
 import type { ExerciseType } from '@/lib/types/exercise-type';
 import { colors } from '@/theme/colors';
 import { useState } from 'react';
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    backgroundColor: colors.containerHighest,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
     borderRadius: 16,
     padding: 12,
     gap: 10,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   headerTitle: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 16,
     fontWeight: '700',
   },
@@ -95,20 +95,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   exitButtonText: {
-    color: colors.textOnPrimary,
+    color: colors.text,
     fontSize: 13,
     fontWeight: '700',
   },
   resultContainer: {
     borderWidth: 1,
-    borderColor: colors.outlineVariant,
+    borderColor: colors.border,
     borderRadius: 14,
-    backgroundColor: colors.containerHigh,
+    backgroundColor: colors.surface,
     padding: 16,
     gap: 12,
   },
   resultText: {
-    color: colors.textPrimary,
+    color: colors.text,
     fontSize: 15,
     fontWeight: '600',
   },

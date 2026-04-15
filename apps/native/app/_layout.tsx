@@ -1,13 +1,12 @@
 import '@/global.css';
 import '@/i18n';
 import { Stack } from 'expo-router';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { queryClient, asyncStoragePersister } from '@/lib/react-query/query-client';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { colors } from '@/theme/colors';
 
 export default function RootLayout() {
   return (
@@ -29,7 +28,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <LinearGradient
-      colors={[colors.gradient.start, colors.gradient.mid, colors.gradient.end]}
+      colors={['#0E0E10', '#0E0E10']} 
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
       style={StyleSheet.absoluteFill}

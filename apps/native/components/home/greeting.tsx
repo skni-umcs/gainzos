@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   label: {
-    color: 'rgba(255, 255, 255, 0.45)',
+    color: colors.textSecondary,
     fontSize: 11,
     fontWeight: '600',
     letterSpacing: 2.5,
   },
   heading: {
-    color: 'rgba(255, 255, 255, 0.92)',
+    color: colors.text,
     fontSize: 26,
     fontWeight: '800',
     letterSpacing: 0.2,

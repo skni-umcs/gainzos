@@ -6,7 +6,7 @@ export function Avatar() {
   return (
     <View>
       <LinearGradient
-        colors={[colors.primaryContainer, colors.primaryDim]}
+        colors={[colors.primary, colors.secondary]} // Gradient zdefiniowany w GainzOS colors
         style={{
           width: 40,
           height: 40,
@@ -14,14 +14,14 @@ export function Avatar() {
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 2,
-          borderColor: `${colors.primaryFixed}66`, // 0.4 opacity
+          borderColor: `${colors.primary}66`, // 0.4 opacity
         }}
       >
         <Text
           style={{
             fontFamily: 'Syne-Bold',
             fontSize: 14,
-            color: colors.textPrimary,
+            color: colors.text,
           }}
         >
           DK

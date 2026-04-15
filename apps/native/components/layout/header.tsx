@@ -2,60 +2,42 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Avatar } from '@/components/ui/avatar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { colors } from '@/theme/colors'; // <- zakładam, że tu masz swój gainzosowy colors.ts
+import { colors } from '@/theme/colors';
 
 export function Header() {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={{ paddingTop: insets.top }} className="bg-transparent">
-      <LinearGradient
-        colors={[`${colors.base}8C`, `${colors.base}00`]} // półprzezroczysty do transparent
-        style={StyleSheet.absoluteFill}
-        pointerEvents="none"
-      />
-
-      <View className="flex-row items-center justify-between px-5 pb-3 pt-2">
-        <View className="flex-row items-center gap-2.5">
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      <View style={styles.row}>
+        <View style={styles.leftGroup}>
           <View
-            className="w-[34px] h-[34px] rounded-[10px] items-center justify-center overflow-hidden border"
-            style={{
-              borderColor: `${colors.success}33`, // 20% opacity
-              backgroundColor: `${colors.success}12`, // 7% opacity
-            }}
+            style={[
+              styles.logoContainer,
+              {
+                borderColor: `${colors.success}33`,
+                backgroundColor: `${colors.success}12`,
+              },
+            ]}
           >
-            <Image
-              source={require('@/assets/logo.png')}
-              className="w-[22px] h-[22px]"
-              resizeMode="contain"
-            />
+            <Image source={require('@/assets/logo.png')} style={styles.logo} resizeMode="contain" />
           </View>
 
-          <View className="flex-row items-baseline gap-0.5">
-            <Text
-              className="text-[17px] font-extrabold tracking-[2.5px]"
-              style={{ color: colors.textPrimary }}
-            >
-              GAINZ
-            </Text>
-            <Text
-              className="text-[17px] font-light tracking-[2.5px] opacity-90"
-              style={{ color: colors.textSecondary }}
-            >
-              OS
-            </Text>
+          <View style={styles.brandRow}>
+            <Text style={[styles.brandMain, { color: colors.text }]}>GAINZ</Text>
+            <Text style={[styles.brandSub, { color: colors.textSecondary }]}>OS</Text>
           </View>
         </View>
 
         {/* Right: avatar */}
-        <View className="flex-row items-center gap-2.5">
+        <View style={styles.rightGroup}>
           <Avatar />
         </View>
       </View>
 
       {/* Bottom accent line */}
       <LinearGradient
-        colors={['transparent', `${colors.success}59`, 'transparent']} // 35% opacity
+        colors={['rgba(0,0,0,0)', `${colors.success}59`, 'rgba(0,0,0,0)']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.borderLine}
@@ -65,6 +47,56 @@ export function Header() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.background,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingBottom: 12,
+    paddingTop: 8,
+  },
+  leftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  logoContainer: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+  },
+  logo: {
+    width: 22,
+    height: 22,
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 2,
+  },
+  brandMain: {
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: 2.5,
+  },
+  brandSub: {
+    fontSize: 17,
+    fontWeight: '300',
+    letterSpacing: 2.5,
+    opacity: 0.9,
+  },
+  rightGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   borderLine: {
     height: 1,
     overflow: 'hidden',

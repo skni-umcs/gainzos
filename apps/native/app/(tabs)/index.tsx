@@ -5,6 +5,7 @@ import { Quote } from '@/lib/types/quote';
 import { Greeting } from '@/components/home/greeting';
 import { HeroStats } from '@/components/home/hero-stats';
 import { StartTrainingButton } from '@/components/home/start-training';
+import { RecentActivity } from '@/components/home/recent-activity';
 
 export default function Index() {
   const { t } = useTranslation('translations', { keyPrefix: 'screens.home' });
@@ -25,6 +26,7 @@ export default function Index() {
       <QuoteCard quote={quote} />
       <StartTrainingButton />
       <HeroStats />
+      <RecentActivity />
     </ScrollView>
   );
 }

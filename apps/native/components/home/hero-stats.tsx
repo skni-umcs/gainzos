@@ -1,5 +1,5 @@
-import { ProgressRing } from '@/components/ui/progress-ring';
 import { View, StyleSheet, Text } from 'react-native';
+import { colors } from '@/theme/colors';
 
 export function HeroStats() {
   const calories = {
@@ -12,101 +12,88 @@ export function HeroStats() {
     total: 5,
   };
 
+  const caloriesProgress = (calories.burned / calories.goal) * 100;
+  const trainingsProgress = (training_amounts.completed / training_amounts.total) * 100;
+
   return (
     <View style={styles.container}>
-      {/* TOP ROW */}
       <View style={styles.topRow}>
-        <View style={styles.stat}>
+        <View style={styles.card}>
           <Text style={styles.statLabel}>Kalorie</Text>
-          <Text style={styles.statValue}>
-            {calories.burned}
-          </Text>
-          <Text style={styles.statSub}>
-            / {calories.goal}
-          </Text>
+          <View style={styles.valueRow}>
+            <Text style={styles.statValue}>{calories.burned}</Text>
+            <Text style={styles.statSub}>/ {calories.goal}</Text>
+          </View>
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${Math.min(caloriesProgress, 100)}%` }]} />
+          </View>
         </View>
 
-        <View style={styles.stat}>
+        <View style={styles.card}>
           <Text style={styles.statLabel}>Treningi</Text>
-          <Text style={styles.statValue}>
-            {training_amounts.completed}
-          </Text>
-          <Text style={styles.statSub}>
-            / {training_amounts.total}
-          </Text>
+          <View style={styles.valueRow}>
+            <Text style={styles.statValue}>{training_amounts.completed}</Text>
+            <Text style={styles.statSub}>/ {training_amounts.total}</Text>
+          </View>
+          <View style={styles.progressTrack}>
+            <View style={[styles.progressFill, { width: `${Math.min(trainingsProgress, 100)}%` }]} />
+          </View>
         </View>
       </View>
-
-      {/* BIG RING BELOW */}
-      <ProgressRing
-        value={calories.burned}
-        max={calories.goal}
-        size={180}
-        strokeWidth={14}
-        innerRing={{
-          value: training_amounts.completed,
-          max: training_amounts.total,
-          strokeWidth: 8,
-          gap: 10,
-        }}
-      >
-        <View style={styles.center}>
-          <Text style={styles.centerMain}>
-            {Math.round((calories.burned / calories.goal) * 100)}%
-          </Text>
-          <Text style={styles.centerSub}>progress</Text>
-        </View>
-      </ProgressRing>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    gap: 20,
+    gap: 12,
   },
-
   topRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 10,
   },
-
-  stat: {
+  card: {
     flex: 1,
-    alignItems: 'center',
-    gap: 4,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    gap: 8,
   },
-
   statLabel: {
-    color: 'rgba(255, 255, 255, 0.5)',
-    fontSize: 14,
+    color: colors.textSecondary,
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.4,
+    textTransform: 'uppercase',
   },
-
+  valueRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 6,
+  },
   statValue: {
-    color: 'white',
-    fontSize: 32,
+    color: colors.text,
+    fontSize: 30,
     fontWeight: '800',
   },
-
   statSub: {
-    color: 'rgba(255,255,255,0.4)',
-    fontSize: 14,
+    color: colors.textSecondary,
+    fontSize: 13,
+    fontWeight: '600',
+    paddingBottom: 4,
   },
-
-  center: {
-    alignItems: 'center',
+  progressTrack: {
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: colors.border,
+    overflow: 'hidden',
   },
-
-  centerMain: {
-    color: 'white',
-    fontSize: 32,
-    fontWeight: '900',
-  },
-
-  centerSub: {
-    color: 'rgba(255,255,255,0.4)',
-    fontSize: 12,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
+  progressFill: {
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: colors.primary,
   },
 });

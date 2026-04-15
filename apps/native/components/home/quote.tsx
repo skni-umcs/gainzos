@@ -1,8 +1,8 @@
 import type { Quote } from '@/lib/types/quote';
 import { View, Text } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '@/theme/colors';
 import { StyleSheet } from 'react-native';
+import { QuoteIcon } from 'lucide-react-native';
 
 interface QuoteCardProps {
   quote: Quote;
@@ -10,20 +10,8 @@ interface QuoteCardProps {
 
 export function QuoteCard({ quote }: QuoteCardProps) {
   return (
-    <View
-      style={styles.container}
-      accessible
-      accessibilityRole="button"
-      accessibilityLabel={`Cytat od ${quote.author}`}
-    >
+    <View style={styles.container}>
       <View style={styles.glassOverlay} />
-
-      <LinearGradient
-        colors={[colors.primary, colors.secondary, colors.secondaryDim]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        style={styles.bar}
-      />
 
       <View style={styles.content}>
         <Text style={styles.text} numberOfLines={4} ellipsizeMode="tail">
@@ -32,6 +20,7 @@ export function QuoteCard({ quote }: QuoteCardProps) {
 
         <Text style={styles.author}>— {quote.author}</Text>
       </View>
+      <QuoteIcon size={24} color={colors.primary} style={styles.bar} />
     </View>
   );
 }
@@ -81,7 +70,7 @@ const styles = StyleSheet.create({
     color: 'rgba(180, 160, 240, 0.75)',
     fontSize: 13,
     fontWeight: '600',
-    textAlign: 'left',  
+    textAlign: 'left',
     letterSpacing: 0.4,
   },
 });
