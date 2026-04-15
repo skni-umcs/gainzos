@@ -29,7 +29,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <LinearGradient
-      colors={[colors.containerHighest, colors.containerHigh, colors.containerLow, colors.containerLowest]}
+      colors={[colors.gradient.start, colors.gradient.mid, colors.gradient.end]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
       style={StyleSheet.absoluteFill}

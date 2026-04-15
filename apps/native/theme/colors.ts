@@ -1,47 +1,34 @@
-
-
 export const colors = {
-  // ─── Surfaces ──────────────────────────────────────
-  base: '#0e0e11',
-  containerLow: '#131316',
-  containerHigh: '#1f1f23',
-  containerHighest: '#25252a',
-  containerLowest: '#000000',
-  variant: '#25252a',
+  // Core
+  primary: '#BF5AF2',
+  secondary: '#5E5CE6',
 
-  // ─── Primary ───────────────────────────────────────
-  primary: '#cc97ff',
-  primaryDim: '#9c48ea',
-  primaryFixed: '#e8d0ff',
-  primaryContainer: '#3d1a6e',
+  // Backgrounds
+  background: '#0e0e10',
+  surface: 'rgba(28, 28, 30, 0.6)',
 
-  // ─── Secondary ─────────────────────────────────────
-  secondary: '#af88ff',
-  secondaryDim: '#7c4dca',
-  secondaryContainer: '#2e1f4a',
+  // Text
+  text: '#f6f3f5',
+  textSecondary: 'rgba(246, 243, 245, 0.6)',
 
-  // ─── Tertiary ──────────────────────────────────────
-  tertiary: '#c8b8ff',
-  tertiaryDim: '#8b6fd4',
-  tertiaryContainer: '#251d3d',
+  // UI
+  border: 'rgba(246, 243, 245, 0.1)',
 
-  // ─── Text ─────────────────────────────────────────
-  textPrimary: '#f0edf1',
-  textSecondary: '#acaaae',
-  textDisabled: '#6b696e',
-  textOnPrimary: '#1a0033',
+  // States
+  success: '#32D74B',
+  error: '#FF453A',
+  warning: '#FFD60A',
+  info: '#5E5CE6',
 
-  // ─── Outline / Borders ────────────────────────────
-  outlineVariant: '#48474b',
-  outlineFocus: '#af88ff',
+  // Extras (opcjonalne, ale sensowne)
+  primaryLight: '#DB90FF',
+  textTertiary: 'rgba(246, 243, 245, 0.4)',
+  shadow: 'rgba(219, 144, 255, 0.15)',
 
-  // ─── Semantic ─────────────────────────────────────
-  success: '#4ade80',
-  successDim: '#16a34a',
-  warning: '#fbbf24',
-  warningDim: '#d97706',
-  error: '#f87171',
-  errorDim: '#dc2626',
-  info: '#60a5fa',
-} as const;
-
+  // Gradienty (zostawiasz jako osobna sekcja)
+  gradient: {
+    start: '#1a0b2e',
+    mid: '#0e0e10',
+    end: '#000000',
+  },
+};

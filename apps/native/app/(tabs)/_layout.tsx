@@ -20,7 +20,7 @@ export default function TabLayout() {
             { height: 60 + insets.bottom, paddingBottom: insets.bottom },
           ],
           tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: colors.textDisabled,
+          tabBarInactiveTintColor: colors.secondary,
         }}
       >
         <Tabs.Screen
@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scene: { backgroundColor: 'transparent' },
   tabBar: {
-    backgroundColor: colors.containerHigh,
+    backgroundColor: colors.background,
     height: 60,
     borderTopWidth: 1,
-    borderTopColor: colors.outlineVariant,
+    borderTopColor: colors.surface,
   },
 });
