@@ -1,0 +1,26 @@
+{
+  "name": "gainzos",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/native"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=dashboard",
+    "dev:native": "turbo dev --filter=native",
+    "dev:server": "cd apps/server && DATABASE_IP=localhost ./gradlew bootRun",
+    "build": "turbo build",
+    "build:server": "cd apps/server && ./gradlew clean build",
+    "lint": "turbo lint",
+    "db:start": "docker compose up -d db",
+    "db:stop": "docker compose stop db",
+    "db:reset": "docker compose stop db; docker compose rm -f db; docker volume rm -f gainzos_pgdata; docker compose up -d db"
+  },
+  "devDependencies": {
+    "turbo": "^2",
+    "@types/react": "^19.2.14"
+  },
+  "packageManager": "npm@11.11.0"
+}
