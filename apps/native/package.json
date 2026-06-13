@@ -63,7 +63,8 @@
     "zustand": "^5.0.12",
     "@gainzos/zod": "workspace:*",
     "@gainzos/api": "workspace:*",
-    "@gainzos/constants": "workspace:*"
+    "@gainzos/constants": "workspace:*",
+    "@gainzos/types": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
