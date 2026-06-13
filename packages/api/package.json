@@ -1,0 +1,22 @@
+{
+  "name": "@gainzos/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@gainzos/zod": "workspace:*",
+    "axios": "^1.16.1"
+  },
+  "devDependencies": {
+    "@gainzos/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

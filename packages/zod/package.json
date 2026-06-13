@@ -1,0 +1,23 @@
+{
+  "name": "@gainzos/zod",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "zod": "^4.4.3",
+    "validator": "^13.15.35",
+    "@gainzos/constants": "workspace:*"
+  },
+  "devDependencies": {
+    "@gainzos/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,7 +1,6 @@
 package com.gainzos.server.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +24,7 @@ public class MediaService {
     public MediaDTO upload(MultipartFile file, String subdir) throws IOException {
         String relativePath = storage.save(subdir, file);
         Media media = Media.builder()
-                .url(relativePath)
+                .path(relativePath)
                 .build();
         Media saved = repository.save(media);
         return mapper.toDTO(saved);
@@ -47,14 +46,8 @@ public class MediaService {
     public void delete(Long id) throws IOException {
         Media media = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Media not found: " + id));
-        storage.delete(media.getUrl());
+        storage.delete(media.getPath());
         repository.delete(media);
     }
 
-    @Transactional(readOnly = true)
-    public Resource loadFile(Long id) {
-        Media media = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Media not found: " + id));
-        return storage.loadAsResource(media.getUrl());
-    }
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@gainzos/types",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@gainzos/constants": "workspace:*"
+  },
+  "devDependencies": {
+    "@gainzos/tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

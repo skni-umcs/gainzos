@@ -133,11 +133,11 @@ public class ExerciseService {
         Exercise e = exerciseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with id " + id + " not found"));
         try {
-            if (e.getImage() != null && e.getImage().getUrl() != null) {
-                fileStorageService.delete(e.getImage().getUrl());
+            if (e.getImage() != null && e.getImage().getPath() != null) {
+                fileStorageService.delete(e.getImage().getPath());
             }
-            if (e.getVideo() != null && e.getVideo().getUrl() != null) {
-                fileStorageService.delete(e.getVideo().getUrl());
+            if (e.getVideo() != null && e.getVideo().getPath() != null) {
+                fileStorageService.delete(e.getVideo().getPath());
             }
         } catch (Exception ex) {
             System.err.println("Error deleting media file: " + ex.getMessage());

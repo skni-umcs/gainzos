@@ -25,7 +25,8 @@ npm run db:reset       # Wipe and recreate database
 ```bash
 ./gradlew bootRun      # Dev server
 ./gradlew clean build  # Production JAR
-./gradlew test         # Run tests
+./gradlew test         # Run all tests
+./gradlew test --tests "com.gainzos.server.ClassName"  # Run single test class
 ```
 
 ### Web (apps/web/)
@@ -86,11 +87,24 @@ Controllers (`routers/`) → Services → Repositories (JPA) → Entities. DTOs 
 
 ## Configuration
 
-Server reads DB connection from env vars: `DATABASE_IP`, `DATABASE_PORT`, `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD`. CORS is configured for `localhost:3001`.
+Copy env files before first run:
+```bash
+cp apps/server/.env.example apps/server/.env
+cp apps/web/.env.example apps/web/.env
+cp apps/native/.env.example apps/native/.env
+```
+
+Server reads DB connection from env vars: `DATABASE_IP`, `DATABASE_PORT`, `DATABASE_NAME`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`. Defaults in `application.yaml`: host `localhost`, port `5432`, name/user/password all `gainzos`. CORS is configured for `localhost:3001`.
+
+Web requires `NEXT_PUBLIC_API_URL=http://localhost:3000`. Native requires `EXPO_PUBLIC_API_URL` — defaults to `http://10.0.2.2:3000` (Android emulator); use `http://localhost:3000` for iOS simulator or physical devices on the same network.
 
 Local development: run `npm run db:start` then `npm run dev:server` (sets `DATABASE_IP=localhost`).
 
 Full stack via Docker: `docker-compose up`.
+
+### Schema management
+
+Liquibase is **disabled** (`spring.liquibase.enabled: false`). Schema changes are applied automatically via `ddl-auto: update`. The `SESSION` table for JDBC-backed Spring Session is initialized from `db/session/session-schema.sql` on startup.
 
 ## Mobile Design System
 

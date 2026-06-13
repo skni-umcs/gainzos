@@ -19,8 +19,15 @@
     "db:reset": "docker compose stop db; docker compose rm -f db; docker volume rm -f gainzos_pgdata; docker compose up -d db"
   },
   "devDependencies": {
-    "turbo": "^2",
-    "@types/react": "^19.2.14"
+    "@gainzos/tsconfig": "workspace:*",
+    "@types/node": "^25.9.3",
+    "prettier": "^3.7.4",
+    "turbo": "^2.9.18",
+    "typescript": "6.0.3",
+    "license-check-and-add": "^4.0.5"
   },
-  "packageManager": "npm@11.11.0"
+  "packageManager": "pnpm@10.25.0",
+  "engines": {
+    "node": ">=18"
+  }
 }

@@ -81,8 +81,8 @@ public class ExercisesTypeService {
                 .orElseThrow(() -> new EntityNotFoundException("Type with id " + id + " not found"));
 
         try {
-            if (type.getImage() != null && type.getImage().getUrl() != null) {
-                fileStorageService.delete(type.getImage().getUrl());
+            if (type.getImage() != null && type.getImage().getPath() != null) {
+                fileStorageService.delete(type.getImage().getPath());
             }
         } catch (Exception ex) {
             System.err.println("Error deleting type image: " + ex.getMessage());

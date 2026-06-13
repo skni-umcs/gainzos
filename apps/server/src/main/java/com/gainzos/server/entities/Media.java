@@ -17,7 +17,7 @@ public class Media {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "url", nullable = false, length = 255)
-  private String url;
+  @Column(name = "path", nullable = false, length = 255)
+  private String path;
 }
 

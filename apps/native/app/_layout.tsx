@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { queryClient, asyncStoragePersister } from '@/lib/react-query/query-client';
+import { queryClient, asyncStoragePersister } from '@/lib/config/query-client';
 import { PortalProvider } from '@gorhom/portal';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
