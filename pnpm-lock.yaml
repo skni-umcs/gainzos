@@ -46,7 +46,7 @@ importers:
         version: link:../../packages/api
       '@gainzos/constants':
         specifier: workspace:*
-        version: link:../../packages/contants
+        version: link:../../packages/constants
       '@gainzos/zod':
         specifier: workspace:*
         version: link:../../packages/zod
@@ -392,7 +392,20 @@ importers:
 
   packages/config: {}
 
-  packages/contants:
+  packages/constants:
+    devDependencies:
+      '@gainzos/tsconfig':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
+  packages/types:
+    dependencies:
+      '@gainzos/constants':
+        specifier: workspace:*
+        version: link:../constants
     devDependencies:
       '@gainzos/tsconfig':
         specifier: workspace:*
@@ -405,7 +418,7 @@ importers:
     dependencies:
       '@gainzos/constants':
         specifier: workspace:*
-        version: link:../contants
+        version: link:../constants
       validator:
         specifier: ^13.15.35
         version: 13.15.35
