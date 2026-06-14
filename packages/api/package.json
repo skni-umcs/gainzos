@@ -9,6 +9,7 @@
     }
   },
   "dependencies": {
+    "@gainzos/types": "workspace:*",
     "@gainzos/zod": "workspace:*",
     "axios": "^1.16.1"
   },

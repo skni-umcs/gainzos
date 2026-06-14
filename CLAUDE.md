@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Gainzos is a full-stack fitness platform: a Spring Boot REST API, a Next.js admin dashboard, and an Expo React Native mobile app, all orchestrated with Turbo in an npm workspace monorepo.
+Gainzos is a full-stack fitness platform: a Spring Boot REST API, a Next.js admin dashboard, and an Expo React Native mobile app, all orchestrated with Turbo in an pnpm workspace monorepo.
 
 ## Commands
 
