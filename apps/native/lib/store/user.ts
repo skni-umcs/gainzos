@@ -2,7 +2,12 @@ import * as SecureStore from 'expo-secure-store';
 import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
-import { UserSession } from '../types';
+/** Authenticated user session (no canonical User DTO exists yet). */
+export type UserSession = {
+  id: number;
+  username: string;
+  email: string;
+};
 
 interface UserState {
   sessionToken: string | null;

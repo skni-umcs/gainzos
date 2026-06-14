@@ -1,50 +1,91 @@
-import * as React from 'react';
-import { Pressable, Text, type PressableProps } from 'react-native';
+import type { ReactNode } from 'react';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle, type TextStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { cn } from '@/lib/utils/cn';
+import { colors, fontFamily, gradients, radius, shadows } from '@/theme';
+import { Text } from './text';
 
-interface ButtonProps extends PressableProps {
-  textClassName?: string;
-  gradient?: [string, string, ...string[]];
-  children: React.ReactNode;
+type Variant = 'primary' | 'secondary' | 'ghost';
+
+interface ButtonProps {
+  children: ReactNode;
+  onPress?: () => void;
+  variant?: Variant;
+  size?: 'md' | 'lg';
+  block?: boolean;
+  disabled?: boolean;
+  icon?: ReactNode;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
+/** Pill button. `primary` uses the accent gradient; `secondary`/`ghost` are flat. */
 export function Button({
-  textClassName,
-  disabled,
   children,
-  gradient = ['#ff7a18', '#ff3d00'],
-  ...props
+  onPress,
+  variant = 'primary',
+  size = 'md',
+  block,
+  disabled,
+  icon,
+  style,
+  textStyle,
 }: ButtonProps) {
-  const textClass = cn('font-semibold text-white', textClassName);
+  const fg = variant === 'primary' ? colors.white : variant === 'ghost' ? colors.text2 : colors.text;
+  const pad = size === 'lg' ? styles.lg : styles.md;
+
+  const content = (
+    <View style={styles.inner}>
+      {icon}
+      {typeof children === 'string' ? (
+        <Text style={[styles.label, { color: fg }, textStyle]}>{children}</Text>
+      ) : (
+        children
+      )}
+    </View>
+  );
 
   return (
-    <Pressable style={{ width: '100%' }} disabled={disabled} {...props}>
-      {(state) => {
-        const isPressed = state.pressed;
-
-        return (
-          <LinearGradient
-            colors={gradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{
-              paddingVertical: 14,
-              alignItems: 'center',
-              borderRadius: 12,
-              opacity: isPressed ? 0.85 : 1,
-              transform: [{ scale: isPressed ? 0.97 : 1 }],
-              overflow: 'hidden',
-            }}
-          >
-            {typeof children === 'string' || typeof children === 'number' ? (
-              <Text className={textClass}>{children}</Text>
-            ) : (
-              children
-            )}
-          </LinearGradient>
-        );
-      }}
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={({ pressed }) => [
+        block && styles.block,
+        disabled && styles.disabled,
+        pressed && styles.pressed,
+        style,
+      ]}
+    >
+      {variant === 'primary' ? (
+        <LinearGradient
+          colors={gradients.accent}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[styles.base, pad, shadows.accentGlow]}
+        >
+          {content}
+        </LinearGradient>
+      ) : (
+        <View style={[styles.base, pad, variant === 'ghost' ? styles.ghost : styles.secondary]}>
+          {content}
+        </View>
+      )}
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  base: {
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
+  md: { paddingVertical: 14, paddingHorizontal: 22 },
+  lg: { paddingVertical: 17, paddingHorizontal: 26 },
+  secondary: { backgroundColor: colors.surface3 },
+  ghost: { borderWidth: 1, borderColor: colors.line2 },
+  block: { width: '100%' },
+  pressed: { transform: [{ scale: 0.97 }] },
+  disabled: { opacity: 0.5 },
+  label: { fontFamily: fontFamily.bodyBold, fontSize: 15 },
+});

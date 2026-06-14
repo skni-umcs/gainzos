@@ -1,42 +1,24 @@
-import { Tabs } from 'expo-router';
-import { ChartBar, Dock, Home, User } from 'lucide-react-native';
-import { StyleSheet } from 'react-native';
-import { colors } from '@/theme/colors';
+import { Tabs, usePathname } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
+import { ChartColumnBig, Home, Layers, User } from 'lucide-react-native';
+import { colors } from '@/theme';
 import { Header } from '@/components/layout/header';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TabBar } from '@/components/layout/tab-bar';
 
 export default function TabLayout() {
-  const insets = useSafeAreaInsets();
+  // Profile opens on its own full-bleed cover, so it skips the global header.
+  const showHeader = usePathname() !== '/profile';
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <Header />
+    <View style={styles.container}>
+      {showHeader && <Header />}
       <Tabs
+        tabBar={(props) => <TabBar {...props} />}
         screenOptions={{
           headerShown: false,
           sceneStyle: styles.scene,
-          tabBarStyle: [
-            styles.tabBar,
-            { height: 60 + insets.bottom, paddingBottom: insets.bottom },
-          ],
-          tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: colors.secondary,
         }}
       >
-        <Tabs.Screen
-          name="analytics/index"
-          options={{
-            title: 'Analytics',
-            tabBarIcon: ({ color, size }) => <ChartBar color={color} size={size} />,
-          }}
-        />
-        <Tabs.Screen
-          name="profile/index"
-          options={{
-            title: 'Profile',
-            tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
-          }}
-        />
         <Tabs.Screen
           name="index"
           options={{
@@ -47,35 +29,30 @@ export default function TabLayout() {
         <Tabs.Screen
           name="templates/index"
           options={{
-            title: 'Templates',
-            tabBarIcon: ({ color, size }) => <Dock color={color} size={size} />,
+            title: 'Plans',
+            tabBarIcon: ({ color, size }) => <Layers color={color} size={size} />,
           }}
         />
         <Tabs.Screen
-          name="templates/creator/index"
+          name="analytics/index"
           options={{
-            href: null,
+            title: 'Stats',
+            tabBarIcon: ({ color, size }) => <ChartColumnBig color={color} size={size} />,
           }}
         />
         <Tabs.Screen
-          name="workout/index"
+          name="profile/index"
           options={{
-            title: 'Workout',
+            title: 'Profile',
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
           }}
         />
       </Tabs>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  scene: { backgroundColor: 'transparent' },
-  tabBar: {
-    backgroundColor: colors.background,
-    height: 60,
-    borderTopWidth: 1,
-    borderTopColor: colors.surface,
-  },
+  container: { flex: 1, backgroundColor: colors.bg },
+  scene: { backgroundColor: colors.bg },
 });

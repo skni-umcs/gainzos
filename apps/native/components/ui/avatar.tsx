@@ -1,32 +1,30 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import { View, Text } from 'react-native';
-import { colors } from '@/theme/colors'; // <- Twój GainzOS colors
+import { Pressable, StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import type { MediaDTO } from '@gainzos/types';
+import { colors } from '@/theme';
+import { Img } from './img';
 
-export function Avatar() {
-  return (
-    <View>
-      <LinearGradient
-        colors={[colors.primary, colors.secondary]} // Gradient zdefiniowany w GainzOS colors
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderWidth: 2,
-          borderColor: `${colors.primary}66`, // 0.4 opacity
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: 'Syne-Bold',
-            fontSize: 14,
-            color: colors.text,
-          }}
-        >
-          DK
-        </Text>
-      </LinearGradient>
-    </View>
-  );
+interface AvatarProps {
+  media?: MediaDTO;
+  size?: number;
+  onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
 }
+
+/** Circular user avatar image with a faint ring. */
+export function Avatar({ media, size = 38, onPress, style }: AvatarProps) {
+  const ring = { width: size, height: size, borderRadius: size / 2 };
+  const content = <Img media={media} radius={size / 2} style={[styles.img, ring]} />;
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} hitSlop={6} style={style}>
+        {content}
+      </Pressable>
+    );
+  }
+  return content;
+}
+
+const styles = StyleSheet.create({
+  img: { borderWidth: 1.5, borderColor: colors.line2 },
+});

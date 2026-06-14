@@ -1,62 +1,59 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { ActivityCard } from '@/components/home/activity-card';
-import { colors } from '@/theme/colors';
+import { View, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { colors, fontFamily } from '@/theme';
+import { Card, Img, SectionHead, Text } from '@/components/ui';
+import { WORKOUTS, templateById } from '@/lib/mock';
+import { relDate, toMinutes } from '@/lib/utils/format';
 
-const recentActivities = [
-	{
-		id: 1,
-		templateName: 'Push Day',
-		dayLabel: 'Poniedziałek',
-		timeLabel: '18:40',
-		burnedCalories: 420,
-	},
-	{
-		id: 2,
-		templateName: 'Pull Day',
-		dayLabel: 'Środa',
-		timeLabel: '19:05',
-		burnedCalories: 390,
-	},
-	{
-		id: 3,
-		templateName: 'Leg Day',
-		dayLabel: 'Piątek',
-		timeLabel: '17:30',
-		burnedCalories: 510,
-	},
-];
-
+/** Latest 3 completed workouts, resolving template name + cover from the mock layer. */
 export function RecentActivity() {
-	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Ostatnie treningi</Text>
+  const router = useRouter();
 
-			<View style={styles.list}>
-				{recentActivities.map((activity) => (
-					<ActivityCard
-						key={activity.id}
-						templateName={activity.templateName}
-						dayLabel={activity.dayLabel}
-						timeLabel={activity.timeLabel}
-						burnedCalories={activity.burnedCalories}
-					/>
-				))}
-			</View>
-		</View>
-	);
+  return (
+    <View>
+      <SectionHead title="Recent activity" action="History" onAction={() => router.push('/analytics')} />
+      <View style={styles.list}>
+        {WORKOUTS.slice(0, 3).map((workout) => {
+          const template = templateById(workout.workoutTemplateId);
+          if (!template) return null;
+          const tonnes = (Number(workout.volume) / 1000).toFixed(1);
+          return (
+            <Card key={workout.id} onPress={() => router.push(`/templates/${template.id}`)} style={styles.row}>
+              <Img media={template.items[0]?.exercise.image} radius={13} style={styles.thumb} />
+              <View style={styles.info}>
+                <Text variant="h3" color={colors.text} numberOfLines={1}>
+                  {template.name}
+                </Text>
+                <Text variant="small" style={styles.sub}>
+                  {relDate(workout.createdAt)} · {toMinutes(workout.duration)} min
+                </Text>
+              </View>
+              <View style={styles.right}>
+                <Text variant="num" size={18} color={colors.text}>
+                  {tonnes}t
+                </Text>
+                <Text style={styles.volumeLabel}>volume</Text>
+              </View>
+            </Card>
+          );
+        })}
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-	container: {
-        paddingTop: 18,
-		gap: 10,
-	},
-	title: {
-		color: colors.text,
-		fontSize: 17,
-		fontWeight: '800',
-	},
-	list: {
-		gap: 8,
-	},
+  list: { gap: 10 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 12 },
+  thumb: { width: 52, height: 52 },
+  info: { flex: 1 },
+  sub: { marginTop: 2 },
+  right: { alignItems: 'flex-end' },
+  volumeLabel: {
+    fontFamily: fontFamily.bodyBold,
+    fontSize: 10,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    color: colors.textMut,
+  },
 });

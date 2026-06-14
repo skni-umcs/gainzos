@@ -1,41 +1,50 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '@/theme/colors';
+import { View, StyleSheet } from 'react-native';
+import { Flame } from 'lucide-react-native';
+import { colors, fontFamily } from '@/theme';
+import { Text } from '@/components/ui';
+import { TODAY } from '@/lib/mock';
 
+/** "Good morning, <name>" with today's date and a streak pill. */
 export function Greeting() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>
-        Cześć,{' '}
-        <Text style={styles.name}>Damian</Text>
-        <Text style={styles.heading}>!</Text>
-      </Text>
-      <Text style={styles.label}>GOTOWY NA TRENING?</Text>
+    <View style={styles.row}>
+      <View>
+        <Text variant="eyebrow">Good morning</Text>
+        <Text variant="display" size={38} color={colors.text} style={styles.name}>
+          {TODAY.greetingName}
+        </Text>
+        <Text variant="small" style={styles.date}>
+          {dateStr}
+        </Text>
+      </View>
+      <View style={styles.streak}>
+        <Flame size={16} color={colors.warning} fill={colors.warning} />
+        <Text variant="num" size={17} color={colors.text}>
+          {TODAY.streak}
+        </Text>
+        <Text style={styles.streakLabel}>days</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    gap: 2,
-    marginHorizontal: 10,
-    marginTop: 12,
-    marginBottom: 12,
+  row: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  name: { marginTop: 2 },
+  date: { marginTop: 4 },
+  streak: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 999,
+    backgroundColor: colors.surface2,
+    borderWidth: 1,
+    borderColor: colors.line,
   },
-  label: {
-    color: colors.textSecondary,
-    fontSize: 11,
-    fontWeight: '600',
-    letterSpacing: 2.5,
-  },
-  heading: {
-    color: colors.text,
-    fontSize: 26,
-    fontWeight: '800',
-    letterSpacing: 0.2,
-  },
-  name: {
-    color: colors.primary,
-    fontSize: 26,
-    fontWeight: '800',
-  },
+  streakLabel: { fontFamily: fontFamily.bodyBold, fontSize: 11, color: colors.textMut },
 });

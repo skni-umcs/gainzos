@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { WorkoutItem } from '../types/workout-item';
+import type { WorkoutItemDTO as WorkoutItem } from '@gainzos/types';
 
 const TEMPLATE_DRAFT_TTL_MS = 30 * 60 * 1000;
 

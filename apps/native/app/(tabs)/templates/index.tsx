@@ -1,32 +1,63 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { TemplateList } from '../../../components/templates/template-list';
-import { ScreenTitle } from '@/components/ui/screen-title';
+import { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Plus } from 'lucide-react-native';
+import { colors, spacing } from '@/theme';
+import { Button, Chip, Pad, Screen, Text } from '@/components/ui';
+import { TemplateCard } from '@/components/templates/template-card';
+import { TEMPLATES } from '@/lib/mock';
+
+type Filter = 'all' | 'public' | 'private';
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'public', label: 'Public' },
+  { id: 'private', label: 'Private' },
+];
 
 export default function TemplatesScreen() {
-  const router = useRouter();
+  const [filter, setFilter] = useState<Filter>('all');
+  const list = TEMPLATES.filter(
+    (t) => filter === 'all' || (filter === 'public' ? t.isPublic : !t.isPublic),
+  );
 
   return (
-    <View style={styles.root}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.container}
-      >
-        <ScreenTitle title="Profile treningowe" description="BIBLIOTEKA TRENINGÓW" />
-        <TemplateList onAddTemplate={() => router.push('/(tabs)/templates/creator')} />
-      </ScrollView>
-    </View>
+    <Screen>
+      <Pad>
+        <View style={styles.header}>
+          <View>
+            <Text variant="eyebrow">Your library</Text>
+            <Text variant="display" size={34} color={colors.text}>
+              Templates
+            </Text>
+          </View>
+          {/* Template builder is deferred; button is a placeholder for the next pass. */}
+          <Button size="md" icon={<Plus size={18} strokeWidth={2.6} color={colors.white} />}>
+            New
+          </Button>
+        </View>
+
+        <View style={styles.filters}>
+          {FILTERS.map((f) => (
+            <Chip key={f.id} label={f.label} active={filter === f.id} onPress={() => setFilter(f.id)} />
+          ))}
+        </View>
+
+        <View style={styles.list}>
+          {list.map((template) => (
+            <TemplateCard key={template.id} template={template} />
+          ))}
+        </View>
+      </Pad>
+    </Screen>
   );
 }
 
-
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    marginBottom: spacing.lg,
   },
-  container: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 32,
-  },
+  filters: { flexDirection: 'row', gap: 8, marginBottom: spacing.lg },
+  list: { gap: spacing.lg },
 });

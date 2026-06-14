@@ -1,3 +1,5 @@
-export { fonts } from './fonts';
-export { colors } from './colors';
-export { spacing, borderRadius } from './spacing';
+export { colors, type ColorToken } from './colors';
+export { fontFamily, typography } from './fonts';
+export { spacing, radius } from './spacing';
+export { gradients } from './gradients';
+export { shadows } from './shadows';
