@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Plus } from 'lucide-react-native';
 import { colors, spacing } from '@/theme';
 import { Button, Chip, Pad, Screen, Text } from '@/components/ui';
-import { TemplateCard } from '@/components/templates/template-card';
+import { TemplateCard } from '@/components/features/templates/template-card';
 import { TEMPLATES } from '@/lib/mock';
 
 type Filter = 'all' | 'public' | 'private';
@@ -14,7 +15,14 @@ const FILTERS: { id: Filter; label: string }[] = [
 ];
 
 export default function TemplatesScreen() {
+  const router = useRouter();
   const [filter, setFilter] = useState<Filter>('all');
+
+  // TEMPLATES is a mutable in-memory mock; re-read it whenever the tab regains
+  // focus so newly created / edited templates show up after returning here.
+  const [, refresh] = useState(0);
+  useFocusEffect(useCallback(() => refresh((n) => n + 1), []));
+
   const list = TEMPLATES.filter(
     (t) => filter === 'all' || (filter === 'public' ? t.isPublic : !t.isPublic),
   );
@@ -29,8 +37,11 @@ export default function TemplatesScreen() {
               Templates
             </Text>
           </View>
-          {/* Template builder is deferred; button is a placeholder for the next pass. */}
-          <Button size="md" icon={<Plus size={18} strokeWidth={2.6} color={colors.white} />}>
+          <Button
+            size="md"
+            onPress={() => router.push('/templates/add')}
+            icon={<Plus size={18} strokeWidth={2.6} color={colors.white} />}
+          >
             New
           </Button>
         </View>

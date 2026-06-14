@@ -20,13 +20,6 @@ export function Greeting() {
           {dateStr}
         </Text>
       </View>
-      <View style={styles.streak}>
-        <Flame size={16} color={colors.warning} fill={colors.warning} />
-        <Text variant="num" size={17} color={colors.text}>
-          {TODAY.streak}
-        </Text>
-        <Text style={styles.streakLabel}>days</Text>
-      </View>
     </View>
   );
 }
@@ -35,16 +28,4 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
   name: { marginTop: 2 },
   date: { marginTop: 4 },
-  streak: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 999,
-    backgroundColor: colors.surface2,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  streakLabel: { fontFamily: fontFamily.bodyBold, fontSize: 11, color: colors.textMut },
 });

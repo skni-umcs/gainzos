@@ -15,9 +15,6 @@ export function Header() {
     <View style={[styles.container, { paddingTop: insets.top + spacing.sm }]}>
       <Logo size={26} />
       <View style={styles.right}>
-        <IconButton onPress={() => router.push('/library')}>
-          <Search size={20} strokeWidth={2.1} color={colors.text} />
-        </IconButton>
         <Avatar onPress={() => router.push('/profile')} />
       </View>
     </View>

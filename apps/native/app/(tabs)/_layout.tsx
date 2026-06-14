@@ -27,21 +27,21 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="templates/index"
+          name="templates"
           options={{
             title: 'Plans',
             tabBarIcon: ({ color, size }) => <Layers color={color} size={size} />,
           }}
         />
         <Tabs.Screen
-          name="analytics/index"
+          name="stats"
           options={{
             title: 'Stats',
             tabBarIcon: ({ color, size }) => <ChartColumnBig color={color} size={size} />,
           }}
         />
         <Tabs.Screen
-          name="profile/index"
+          name="profile"
           options={{
             title: 'Profile',
             tabBarIcon: ({ color, size }) => <User color={color} size={size} />,

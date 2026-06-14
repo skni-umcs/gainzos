@@ -106,13 +106,6 @@ export default function ExerciseDetailScreen() {
           </Card>
         </Pad>
       </Screen>
-
-      {/* Template builder is deferred; CTA is a placeholder for the next pass. */}
-      <LinearGradient colors={['rgba(14,14,16,0)', colors.bg]} style={styles.footer}>
-        <Button block size="lg" icon={<Plus size={18} strokeWidth={2.6} color={colors.white} />}>
-          Add to template
-        </Button>
-      </LinearGradient>
     </View>
   );
 }

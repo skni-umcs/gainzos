@@ -5,13 +5,12 @@ import { Card, Img, SectionHead, Text } from '@/components/ui';
 import { WORKOUTS, templateById } from '@/lib/mock';
 import { relDate, toMinutes } from '@/lib/utils/format';
 
-/** Latest 3 completed workouts, resolving template name + cover from the mock layer. */
 export function RecentActivity() {
   const router = useRouter();
 
   return (
     <View>
-      <SectionHead title="Recent activity" action="History" onAction={() => router.push('/analytics')} />
+      <SectionHead title="Recent activity" action="History" onAction={() => router.push("/(tabs)/stats")} />
       <View style={styles.list}>
         {WORKOUTS.slice(0, 3).map((workout) => {
           const template = templateById(workout.workoutTemplateId);
@@ -19,7 +18,6 @@ export function RecentActivity() {
           const tonnes = (Number(workout.volume) / 1000).toFixed(1);
           return (
             <Card key={workout.id} onPress={() => router.push(`/templates/${template.id}`)} style={styles.row}>
-              <Img media={template.items[0]?.exercise.image} radius={13} style={styles.thumb} />
               <View style={styles.info}>
                 <Text variant="h3" color={colors.text} numberOfLines={1}>
                   {template.name}
@@ -45,7 +43,6 @@ export function RecentActivity() {
 const styles = StyleSheet.create({
   list: { gap: 10 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 12 },
-  thumb: { width: 52, height: 52 },
   info: { flex: 1 },
   sub: { marginTop: 2 },
   right: { alignItems: 'flex-end' },

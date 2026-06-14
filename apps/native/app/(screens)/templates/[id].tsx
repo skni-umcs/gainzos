@@ -45,7 +45,7 @@ export default function TemplateDetailScreen() {
       <BackHeader
         transparent
         right={
-          <IconButton size={40} style={styles.glassBtn}>
+          <IconButton size={40} onPress={() => router.push(`/templates/edit/${id}`)} style={styles.glassBtn}>
             <Pencil size={19} strokeWidth={2.1} color={colors.text} />
           </IconButton>
         }

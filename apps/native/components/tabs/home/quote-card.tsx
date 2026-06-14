@@ -7,7 +7,6 @@ import { QUOTE } from '@/lib/mock';
 export function QuoteCard() {
   return (
     <View style={styles.card}>
-      <Text style={styles.mark}>“</Text>
       <Text style={styles.quote}>{QUOTE.text}</Text>
       <Text style={styles.author}>— {QUOTE.author}</Text>
     </View>
@@ -22,15 +21,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.line,
     overflow: 'hidden',
-  },
-  mark: {
-    position: 'absolute',
-    top: -28,
-    left: 10,
-    fontFamily: fontFamily.displayBold,
-    fontSize: 110,
-    color: colors.accent,
-    opacity: 0.16,
   },
   quote: {
     fontFamily: fontFamily.displayMedium,

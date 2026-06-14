@@ -17,7 +17,10 @@ interface TemplateStore {
 	setDescription: (description: string) => void;
 	setWorkoutItems: (workoutItems: WorkoutItem[]) => void;
 	addWorkoutItem: (workoutItem: WorkoutItem) => void;
+	updateWorkoutItem: (workoutItemId: number, patch: Partial<WorkoutItem>) => void;
 	removeWorkoutItem: (workoutItemId: number) => void;
+	/** Seed the draft from an existing template (edit flow). */
+	loadDraft: (draft: Partial<TemplateDraft>) => void;
 	clearDraft: () => void;
 	renewExpiration: () => void;
 	ensureFresh: () => void;
@@ -71,11 +74,33 @@ export const useTemplateStore = create<TemplateStore>()((set, get) => ({
 			expiresAt: nextExpiry(),
 		})),
 
+	updateWorkoutItem: (workoutItemId, patch) =>
+		set((state) => ({
+			draft: {
+				...state.draft,
+				workoutItems: state.draft.workoutItems.map((item) =>
+					item.id === workoutItemId ? { ...item, ...patch } : item,
+				),
+			},
+			expiresAt: nextExpiry(),
+		})),
+
 	removeWorkoutItem: (workoutItemId) =>
 		set((state) => ({
 			draft: {
 				...state.draft,
 				workoutItems: state.draft.workoutItems.filter((item) => item.id !== workoutItemId),
+			},
+			expiresAt: nextExpiry(),
+		})),
+
+	loadDraft: (draft) =>
+		set((state) => ({
+			draft: {
+				...createInitialDraft(),
+				...draft,
+				// Clone items so editing the draft never mutates the source template.
+				workoutItems: (draft.workoutItems ?? state.draft.workoutItems).map((item) => ({ ...item })),
 			},
 			expiresAt: nextExpiry(),
 		})),

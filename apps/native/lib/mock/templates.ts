@@ -30,7 +30,7 @@ function buildItems(seeds: ItemSeed[]): WorkoutItemDTO[] {
 }
 
 /** Unique muscles worked by a template's items (primary + secondary), preserving order. */
-function muscleGroupsOf(items: WorkoutItemDTO[]): MuscleGroup[] {
+export function muscleGroupsOf(items: WorkoutItemDTO[]): MuscleGroup[] {
   const seen = new Set<MuscleGroup>();
   const out: MuscleGroup[] = [];
   for (const item of items) {
@@ -119,6 +119,41 @@ export const TEMPLATES: WorkoutTemplateDTO[] = SEEDS.map((s) => {
 
 export const templateById = (id: number): WorkoutTemplateDTO | undefined =>
   TEMPLATES.find((t) => t.id === id);
+
+let templateIdSeq = Math.max(0, ...SEEDS.map((s) => s.id));
+
+/** Stable, unique id for a freshly built draft workout item. */
+export const nextWorkoutItemId = (): number => itemIdSeq++;
+
+/**
+ * Persist a draft into the in-memory mock layer — inserts a new template (when
+ * `id` is absent) or replaces the existing one. `muscleGroups` is recomputed
+ * from the items so it always matches. Returns the saved template.
+ */
+export function upsertTemplate(draft: {
+  id?: number;
+  name: string;
+  description: string;
+  items: WorkoutItemDTO[];
+}): WorkoutTemplateDTO {
+  const existing = draft.id != null ? templateById(draft.id) : undefined;
+  const saved: WorkoutTemplateDTO = {
+    id: existing?.id ?? ++templateIdSeq,
+    name: draft.name.trim(),
+    description: draft.description.trim(),
+    muscleGroups: muscleGroupsOf(draft.items),
+    ownerId: existing?.ownerId ?? 1,
+    isPublic: existing?.isPublic ?? false,
+    items: draft.items,
+  };
+
+  if (existing) {
+    TEMPLATES[TEMPLATES.indexOf(existing)] = saved;
+  } else {
+    TEMPLATES.unshift(saved);
+  }
+  return saved;
+}
 
 /** Total set count across a template's items. */
 export const templateSetCount = (t: WorkoutTemplateDTO): number =>

@@ -14,7 +14,7 @@ export function ProgressRings() {
           <Text variant="num" size={30} color={colors.text}>
             {calories}
           </Text>
-          <Text style={styles.ringSub}>/ {calorieGoal} kcal</Text>
+          <Text style={[styles.ringSub, styles.ringSubNudge]}>/ {calorieGoal} kcal</Text>
         </Ring>
         <Text variant="small" color={colors.text2} style={styles.caption}>
           Calories
@@ -52,5 +52,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: colors.textMut,
   },
+  // Counteracts the trailing letterSpacing so the line sits centred under the count.
+  ringSubNudge: { transform: [{ translateX: 12 }] },
   caption: { marginTop: 8, fontFamily: fontFamily.bodyBold },
 });

@@ -14,7 +14,6 @@ export { Img } from './img';
 export { Ring } from './ring';
 export { Bar } from './bar';
 export { StatTile } from './stat-tile';
-export { MiniBars } from './mini-bars';
 export { LineChart } from './line-chart';
 export { Donut, DONUT_COLORS } from './donut';
 export { Avatar } from './avatar';

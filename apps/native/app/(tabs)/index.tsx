@@ -1,32 +1,24 @@
 import { View, StyleSheet } from 'react-native';
 import { spacing } from '@/theme';
 import { Screen, Pad } from '@/components/ui';
-import { Greeting } from '@/components/home/greeting';
-import { ProgressRings } from '@/components/home/progress-rings';
-import { StartCta } from '@/components/home/start-cta';
-import { QuoteCard } from '@/components/home/quote-card';
-import { RecentActivity } from '@/components/home/recent-activity';
+import { Greeting } from '@/components/tabs/home/greeting';
+import { ProgressRings } from '@/components/tabs/home/progress-rings';
+import { StartCta } from '@/components/tabs/home/start-cta';
+import { QuoteCard } from '@/components/tabs/home/quote-card';
+import { RecentActivity } from '@/components/tabs/home/recent-activity';
 
 export default function HomeScreen() {
   return (
     <Screen>
-      <View style={styles.stack}>
-        <Pad>
+      <Pad>
+        <View style={styles.stack}>
           <Greeting />
-        </Pad>
-        <Pad>
           <ProgressRings />
-        </Pad>
-        <Pad>
           <StartCta />
-        </Pad>
-        <Pad>
           <QuoteCard />
-        </Pad>
-        <Pad>
           <RecentActivity />
-        </Pad>
-      </View>
+        </View>
+      </Pad>
     </Screen>
   );
 }
