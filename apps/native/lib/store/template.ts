@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { WorkoutItemDTO as WorkoutItem } from '@gainzos/types';
+import type { WorkoutItemDTO as WorkoutItem, WorkoutSetDTO } from '@gainzos/types';
 
 const TEMPLATE_DRAFT_TTL_MS = 30 * 60 * 1000;
 
@@ -19,6 +19,9 @@ interface TemplateStore {
 	addWorkoutItem: (workoutItem: WorkoutItem) => void;
 	updateWorkoutItem: (workoutItemId: number, patch: Partial<WorkoutItem>) => void;
 	removeWorkoutItem: (workoutItemId: number) => void;
+	addSet: (workoutItemId: number, set: WorkoutSetDTO) => void;
+	updateSet: (workoutItemId: number, setId: number, patch: Partial<WorkoutSetDTO>) => void;
+	removeSet: (workoutItemId: number, setId: number) => void;
 	/** Seed the draft from an existing template (edit flow). */
 	loadDraft: (draft: Partial<TemplateDraft>) => void;
 	clearDraft: () => void;
@@ -94,13 +97,56 @@ export const useTemplateStore = create<TemplateStore>()((set, get) => ({
 			expiresAt: nextExpiry(),
 		})),
 
+	addSet: (workoutItemId, newSet) =>
+		set((state) => ({
+			draft: {
+				...state.draft,
+				workoutItems: state.draft.workoutItems.map((item) =>
+					item.id === workoutItemId ? { ...item, sets: [...item.sets, newSet] } : item,
+				),
+			},
+			expiresAt: nextExpiry(),
+		})),
+
+	updateSet: (workoutItemId, setId, patch) =>
+		set((state) => ({
+			draft: {
+				...state.draft,
+				workoutItems: state.draft.workoutItems.map((item) =>
+					item.id === workoutItemId
+						? {
+								...item,
+								sets: item.sets.map((s) => (s.id === setId ? { ...s, ...patch } : s)),
+							}
+						: item,
+				),
+			},
+			expiresAt: nextExpiry(),
+		})),
+
+	removeSet: (workoutItemId, setId) =>
+		set((state) => ({
+			draft: {
+				...state.draft,
+				workoutItems: state.draft.workoutItems.map((item) =>
+					item.id === workoutItemId
+						? { ...item, sets: item.sets.filter((s) => s.id !== setId) }
+						: item,
+				),
+			},
+			expiresAt: nextExpiry(),
+		})),
+
 	loadDraft: (draft) =>
 		set((state) => ({
 			draft: {
 				...createInitialDraft(),
 				...draft,
-				// Clone items so editing the draft never mutates the source template.
-				workoutItems: (draft.workoutItems ?? state.draft.workoutItems).map((item) => ({ ...item })),
+				// Clone items and their sets so editing the draft never mutates the source template.
+				workoutItems: (draft.workoutItems ?? state.draft.workoutItems).map((item) => ({
+					...item,
+					sets: item.sets.map((s) => ({ ...s })),
+				})),
 			},
 			expiresAt: nextExpiry(),
 		})),

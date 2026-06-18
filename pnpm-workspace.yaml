@@ -5,3 +5,10 @@ packages:
 
 catalog:
   typescript: "6.0.3"
+
+# @expo/dom-webview is pulled in transitively (as a peer of expo's log-box/cli/
+# metro-runtime) at 55.0.6, whose native module targets the old expo-modules-core
+# API (AnyTypeProvider) and crashes module registration under expo-modules-core 56.
+# Pin it to the 56.x line that matches the installed SDK.
+overrides:
+  "@expo/dom-webview": "56.0.5"

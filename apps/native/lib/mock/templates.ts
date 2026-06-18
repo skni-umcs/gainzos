@@ -1,7 +1,12 @@
-import type { WorkoutTemplateDTO, WorkoutItemDTO } from '@gainzos/types';
+import type { WorkoutTemplateDTO, WorkoutItemDTO, WorkoutSetDTO } from '@gainzos/types';
 import type { MuscleGroup } from '@gainzos/constants';
 import { exerciseById } from './exercises';
 
+/**
+ * A seed describes one exercise plus the values shared by its sets. `sets` is a
+ * count expanded into that many identical sets; every set carries reps,
+ * exercise time, rest and weight.
+ */
 type ItemSeed = {
   ex: string;
   sets: number;
@@ -12,19 +17,23 @@ type ItemSeed = {
 };
 
 let itemIdSeq = 1;
+let setIdSeq = 1;
 
 function buildItems(seeds: ItemSeed[]): WorkoutItemDTO[] {
   return seeds.map((s) => {
     const exercise = exerciseById(s.ex);
     if (!exercise) throw new Error(`Unknown mock exercise id: ${s.ex}`);
-    return {
-      id: itemIdSeq++,
-      exercise,
-      sets: s.sets,
+    const sets: WorkoutSetDTO[] = Array.from({ length: s.sets }, () => ({
+      id: setIdSeq++,
       reps: s.reps,
       durationSeconds: s.durationSeconds ?? 0,
       restTimeSeconds: s.restTimeSeconds,
       weight: s.weight,
+    }));
+    return {
+      id: itemIdSeq++,
+      exercise,
+      sets,
     };
   });
 }
@@ -125,6 +134,9 @@ let templateIdSeq = Math.max(0, ...SEEDS.map((s) => s.id));
 /** Stable, unique id for a freshly built draft workout item. */
 export const nextWorkoutItemId = (): number => itemIdSeq++;
 
+/** Stable, unique id for a freshly built draft set within a workout item. */
+export const nextWorkoutSetId = (): number => setIdSeq++;
+
 /**
  * Persist a draft into the in-memory mock layer — inserts a new template (when
  * `id` is absent) or replaces the existing one. `muscleGroups` is recomputed
@@ -157,8 +169,13 @@ export function upsertTemplate(draft: {
 
 /** Total set count across a template's items. */
 export const templateSetCount = (t: WorkoutTemplateDTO): number =>
-  t.items.reduce((acc, i) => acc + i.sets, 0);
+  t.items.reduce((acc, i) => acc + i.sets.length, 0);
 
-/** Rough estimated minutes (sets × (rest + ~40s of work)). */
+/** Rough estimated minutes — sum over every set of its rest + ~40s of work. */
 export const templateEstMinutes = (t: WorkoutTemplateDTO): number =>
-  Math.round(t.items.reduce((acc, i) => acc + i.sets * (i.restTimeSeconds + 40), 0) / 60);
+  Math.round(
+    t.items.reduce(
+      (acc, i) => acc + i.sets.reduce((sum, set) => sum + set.restTimeSeconds + 40, 0),
+      0,
+    ) / 60,
+  );

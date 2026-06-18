@@ -20,7 +20,7 @@ import {
   HankenGrotesk_700Bold,
   HankenGrotesk_800ExtraBold,
 } from '@expo-google-fonts/hanken-grotesk';
-import { queryClient, asyncStoragePersister } from '@/lib/config/query-client';
+import { queryClient, persister } from '@/lib/config/query-client';
 import { colors } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -46,7 +46,7 @@ export default function RootLayout() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister: asyncStoragePersister }}
+      persistOptions={{ persister }}
     >
       <SafeAreaProvider>
         <PortalProvider>
@@ -58,10 +58,6 @@ export default function RootLayout() {
             }}
           >
             <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="templates/[id]" />
-            <Stack.Screen name="library/index" />
-            <Stack.Screen name="library/[type]" />
-            <Stack.Screen name="exercise/[id]" />
           </Stack>
         </PortalProvider>
       </SafeAreaProvider>

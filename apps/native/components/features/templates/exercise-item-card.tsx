@@ -1,33 +1,65 @@
-import { View, StyleSheet } from 'react-native';
-import { X } from 'lucide-react-native';
+import { useState } from 'react';
+import { View, TextInput, StyleSheet } from 'react-native';
+import { Plus, X } from 'lucide-react-native';
 import type { WorkoutItemDTO } from '@gainzos/types';
 import { colors, fontFamily, radius } from '@/theme';
-import { Card, IconButton, Img, Text } from '@/components/ui';
-import { muscleLabel } from '@/lib/mock';
+import { Button, Card, IconButton, Img, Text } from '@/components/ui';
+import { muscleLabel, nextWorkoutSetId } from '@/lib/mock';
 import { useTemplateStore } from '@/lib/store/template';
-import { Stepper } from './stepper';
 
-/** A control row: left label, right stepper. */
-function Control({ label, children }: { label: string; children: React.ReactNode }) {
+/** Compact numeric cell — a plain input that keeps its own text so partial edits don't snap to 0. */
+function SetInput({
+  value,
+  onChange,
+  decimal,
+}: {
+  value: number;
+  onChange: (next: number) => void;
+  decimal?: boolean;
+}) {
+  const [text, setText] = useState(String(value));
+
+  const commit = (raw: string) => {
+    const cleaned = raw.replace(decimal ? /[^0-9.]/g : /[^0-9]/g, '');
+    setText(cleaned);
+    onChange(cleaned === '' ? 0 : Number(cleaned) || 0);
+  };
+
   return (
-    <View style={styles.control}>
-      <Text variant="small" color={colors.text2} style={styles.controlLabel}>
-        {label}
-      </Text>
-      {children}
-    </View>
+    <TextInput
+      style={styles.cellInput}
+      value={text}
+      onChangeText={commit}
+      keyboardType={decimal ? 'decimal-pad' : 'number-pad'}
+      selectTextOnFocus
+      maxLength={decimal ? 6 : 4}
+      placeholder="0"
+      placeholderTextColor={colors.textFaint}
+    />
   );
 }
 
 /**
- * An exercise added to the draft, with inline controls for sets, reps/time,
- * weight and rest. Mirrors the detail view's reps-vs-duration heuristic
- * (`reps || durationSeconds`) so display and editor stay in agreement.
+ * An exercise added to the draft. Each exercise owns a list of sets; every set
+ * is one compact row carrying its own reps, exercise time, weight and rest.
  */
 export function ExerciseItemCard({ item, index }: { item: WorkoutItemDTO; index: number }) {
-  const update = useTemplateStore((s) => s.updateWorkoutItem);
-  const remove = useTemplateStore((s) => s.removeWorkoutItem);
-  const isTimed = !item.reps;
+  const removeItem = useTemplateStore((s) => s.removeWorkoutItem);
+  const addSet = useTemplateStore((s) => s.addSet);
+  const updateSet = useTemplateStore((s) => s.updateSet);
+  const removeSet = useTemplateStore((s) => s.removeSet);
+
+  // New set inherits the last set's values so adding sets is one tap.
+  const handleAddSet = () => {
+    const last = item.sets[item.sets.length - 1];
+    addSet(item.id, {
+      id: nextWorkoutSetId(),
+      reps: last?.reps ?? 10,
+      durationSeconds: last?.durationSeconds ?? 0,
+      restTimeSeconds: last?.restTimeSeconds ?? 90,
+      weight: last?.weight ?? 0,
+    });
+  };
 
   return (
     <Card tier="2" style={styles.card}>
@@ -44,54 +76,68 @@ export function ExerciseItemCard({ item, index }: { item: WorkoutItemDTO; index:
             {muscleLabel(item.exercise.primaryMuscle)} · {item.exercise.force}
           </Text>
         </View>
-        <IconButton size={34} onPress={() => remove(item.id)} style={styles.removeBtn}>
+        <IconButton size={34} onPress={() => removeItem(item.id)} style={styles.removeBtn}>
           <X size={17} strokeWidth={2.3} color={colors.text2} />
         </IconButton>
       </View>
 
-      <View style={styles.controls}>
-        <Control label="Sets">
-          <Stepper value={item.sets} min={1} max={20} onChange={(v) => update(item.id, { sets: v })} />
-        </Control>
-        {isTimed ? (
-          <Control label="Time">
-            <Stepper
-              value={item.durationSeconds}
-              min={5}
-              max={600}
-              step={5}
-              format={(v) => `${v}s`}
-              onChange={(v) => update(item.id, { durationSeconds: v })}
-            />
-          </Control>
-        ) : (
-          <>
-            <Control label="Reps">
-              <Stepper value={item.reps} min={1} max={50} onChange={(v) => update(item.id, { reps: v })} />
-            </Control>
-            <Control label="Weight">
-              <Stepper
-                value={item.weight}
-                min={0}
-                max={500}
-                step={2.5}
-                format={(v) => `${v}kg`}
-                onChange={(v) => update(item.id, { weight: v })}
+      <View style={styles.table}>
+        <View style={styles.row}>
+          <Text style={[styles.colLabel, styles.setNo]}>#</Text>
+          <Text style={[styles.colLabel, styles.cell]}>Reps</Text>
+          <Text style={[styles.colLabel, styles.cell]}>Time</Text>
+          <Text style={[styles.colLabel, styles.cell]}>Kg</Text>
+          <Text style={[styles.colLabel, styles.cell]}>Rest</Text>
+          <View style={styles.delCol} />
+        </View>
+
+        {item.sets.map((set, setIndex) => (
+          <View key={set.id} style={styles.row}>
+            <Text variant="num" size={14} color={colors.textMut} style={styles.setNo}>
+              {setIndex + 1}
+            </Text>
+            <View style={styles.cell}>
+              <SetInput value={set.reps} onChange={(v) => updateSet(item.id, set.id, { reps: v })} />
+            </View>
+            <View style={styles.cell}>
+              <SetInput
+                value={set.durationSeconds}
+                onChange={(v) => updateSet(item.id, set.id, { durationSeconds: v })}
               />
-            </Control>
-          </>
-        )}
-        <Control label="Rest">
-          <Stepper
-            value={item.restTimeSeconds}
-            min={0}
-            max={600}
-            step={15}
-            format={(v) => `${v}s`}
-            onChange={(v) => update(item.id, { restTimeSeconds: v })}
-          />
-        </Control>
+            </View>
+            <View style={styles.cell}>
+              <SetInput
+                value={set.weight}
+                decimal
+                onChange={(v) => updateSet(item.id, set.id, { weight: v })}
+              />
+            </View>
+            <View style={styles.cell}>
+              <SetInput
+                value={set.restTimeSeconds}
+                onChange={(v) => updateSet(item.id, set.id, { restTimeSeconds: v })}
+              />
+            </View>
+            {item.sets.length > 1 ? (
+              <IconButton size={28} onPress={() => removeSet(item.id, set.id)} style={styles.delBtn}>
+                <X size={14} strokeWidth={2.3} color={colors.text2} />
+              </IconButton>
+            ) : (
+              <View style={styles.delCol} />
+            )}
+          </View>
+        ))}
       </View>
+
+      <Button
+        variant="secondary"
+        onPress={handleAddSet}
+        style={styles.addSetBtn}
+        icon={<Plus size={16} strokeWidth={2.6} color={colors.accentBr} />}
+        textStyle={styles.addSetLabel}
+      >
+        Add set
+      </Button>
     </Card>
   );
 }
@@ -104,17 +150,29 @@ const styles = StyleSheet.create({
   info: { flex: 1 },
   meta: { marginTop: 2 },
   removeBtn: { backgroundColor: colors.surface3 },
-  controls: {
+  table: { gap: 8 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  colLabel: {
+    fontFamily: fontFamily.bodySemiBold,
+    fontSize: 11,
+    color: colors.textMut,
+    textAlign: 'center',
+  },
+  setNo: { width: 16, textAlign: 'center' },
+  cell: { flex: 1 },
+  cellInput: {
     backgroundColor: colors.surface1,
-    borderRadius: radius.md,
-    paddingHorizontal: 14,
-    paddingVertical: 4,
-  },
-  control: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    borderRadius: radius.sm,
     paddingVertical: 9,
+    paddingHorizontal: 6,
+    color: colors.text,
+    fontFamily: fontFamily.body,
+    fontVariant: ['tabular-nums'],
+    fontSize: 15,
+    textAlign: 'center',
   },
-  controlLabel: { fontFamily: fontFamily.bodySemiBold },
+  delCol: { width: 28 },
+  delBtn: { backgroundColor: colors.surface3 },
+  addSetBtn: { alignSelf: 'flex-start' },
+  addSetLabel: { color: colors.accentBr },
 });

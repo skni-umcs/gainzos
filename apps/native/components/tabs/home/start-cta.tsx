@@ -1,15 +1,17 @@
 import { View, Pressable, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Dumbbell, Play } from 'lucide-react-native';
 import { colors, fontFamily, gradients, radius, shadows } from '@/theme';
 import { Text } from '@/components/ui';
 import { templateById } from '@/lib/mock';
+import { useStartWorkout } from '@/lib/hooks/use-start-workout';
 
 export function StartCta() {
-  const router = useRouter();
+  const startWorkout = useStartWorkout();
   const template = templateById(1);
   if (!template) return null;
+
+  const start = () => startWorkout(template);
 
   return (
     <View>
@@ -28,7 +30,7 @@ export function StartCta() {
           {template.name}
         </Text>
 
-        <Pressable onPress={() => router.push(`/(screens)/templates/${template.id}`)} style={styles.pill}>
+        <Pressable onPress={start} style={styles.pill}>
           <Play size={17} color={colors.accentDeep} fill={colors.accentDeep} />
           <Text style={styles.pillText}>Start training</Text>
         </Pressable>

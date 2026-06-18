@@ -7,25 +7,8 @@ import { Button, Chip, Pad, Screen, Text } from '@/components/ui';
 import { TemplateCard } from '@/components/features/templates/template-card';
 import { TEMPLATES } from '@/lib/mock';
 
-type Filter = 'all' | 'public' | 'private';
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'public', label: 'Public' },
-  { id: 'private', label: 'Private' },
-];
-
 export default function TemplatesScreen() {
   const router = useRouter();
-  const [filter, setFilter] = useState<Filter>('all');
-
-  // TEMPLATES is a mutable in-memory mock; re-read it whenever the tab regains
-  // focus so newly created / edited templates show up after returning here.
-  const [, refresh] = useState(0);
-  useFocusEffect(useCallback(() => refresh((n) => n + 1), []));
-
-  const list = TEMPLATES.filter(
-    (t) => filter === 'all' || (filter === 'public' ? t.isPublic : !t.isPublic),
-  );
 
   return (
     <Screen>
@@ -46,14 +29,8 @@ export default function TemplatesScreen() {
           </Button>
         </View>
 
-        <View style={styles.filters}>
-          {FILTERS.map((f) => (
-            <Chip key={f.id} label={f.label} active={filter === f.id} onPress={() => setFilter(f.id)} />
-          ))}
-        </View>
-
         <View style={styles.list}>
-          {list.map((template) => (
+          {TEMPLATES.map((template) => (
             <TemplateCard key={template.id} template={template} />
           ))}
         </View>

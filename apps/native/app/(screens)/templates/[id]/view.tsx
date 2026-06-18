@@ -2,6 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Globe, Lock, Pencil, Play, Timer } from 'lucide-react-native';
+import type { WorkoutItemDTO } from '@gainzos/types';
 import { colors, fontFamily } from '@/theme';
 import {
   Badge,
@@ -21,10 +22,40 @@ import {
   templateEstMinutes,
   templateSetCount,
 } from '@/lib/mock';
+import { useStartWorkout } from '@/lib/hooks/use-start-workout';
+
+/**
+ * Compact one-line summary of an exercise's sets. Shows uniform values directly
+ * (e.g. "4 × 8 · 80kg") and collapses to "varied" / a range when sets differ.
+ */
+function setSummary(item: WorkoutItemDTO): { load: string; rest: string | null } {
+  const sets = item.sets;
+  const first = sets[0];
+  if (!first) return { load: 'No sets', rest: null };
+
+  const sameWork = sets.every(
+    (s) => s.reps === first.reps && s.durationSeconds === first.durationSeconds,
+  );
+  const sameWeight = sets.every((s) => s.weight === first.weight);
+  const sameRest = sets.every((s) => s.restTimeSeconds === first.restTimeSeconds);
+
+  const work = first.reps || `${first.durationSeconds}s`;
+  const load = `${sets.length} × ${sameWork ? work : 'varied'}${
+    sameWeight && first.weight ? ` · ${first.weight}kg` : ''
+  }`;
+
+  const rests = sets.map((s) => s.restTimeSeconds);
+  const rest = sameRest
+    ? `${first.restTimeSeconds}s`
+    : `${Math.min(...rests)}–${Math.max(...rests)}s`;
+
+  return { load, rest };
+}
 
 export default function TemplateDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const startWorkout = useStartWorkout();
   const template = templateById(Number(id));
 
   if (!template) {
@@ -45,7 +76,7 @@ export default function TemplateDetailScreen() {
       <BackHeader
         transparent
         right={
-          <IconButton size={40} onPress={() => router.push(`/templates/edit/${id}`)} style={styles.glassBtn}>
+          <IconButton size={40} onPress={() => router.push(`/templates/${id}/edit`)} style={styles.glassBtn}>
             <Pencil size={19} strokeWidth={2.1} color={colors.text} />
           </IconButton>
         }
@@ -54,18 +85,6 @@ export default function TemplateDetailScreen() {
       <Screen contentStyle={styles.scrollPad}>
         <Img media={template.items[0]?.exercise.image} radius={0} scrim scrimStrength={0.95} style={styles.hero}>
           <View style={styles.heroContent}>
-            <Badge
-              label={template.isPublic ? 'Public' : 'Private'}
-              tone={template.isPublic ? 'accent' : 'neutral'}
-              icon={
-                template.isPublic ? (
-                  <Globe size={12} strokeWidth={2.2} color={colors.accentBr} />
-                ) : (
-                  <Lock size={12} strokeWidth={2.2} color={colors.text2} />
-                )
-              }
-              style={styles.heroBadge}
-            />
             <Text variant="display" size={38} color={colors.white}>
               {template.name}
             </Text>
@@ -105,38 +124,47 @@ export default function TemplateDetailScreen() {
 
           <SectionHead title="Exercises" />
           <View style={styles.exList}>
-            {template.items.map((item, index) => (
-              <Card
-                key={item.id}
-                onPress={() => router.push(`/exercise/${item.exercise.id}`)}
-                style={styles.exRow}
-              >
-                <Text variant="num" size={15} color={colors.textMut} style={styles.exIndex}>
-                  {index + 1}
-                </Text>
-                <Img media={item.exercise.image} radius={12} style={styles.exThumb} />
-                <View style={styles.exInfo}>
-                  <Text variant="h3" color={colors.text}>
-                    {item.exercise.name}
+            {template.items.map((item, index) => {
+              const summary = setSummary(item);
+              return (
+                <Card
+                  key={item.id}
+                  onPress={() => router.push(`/exercise/${item.exercise.id}`)}
+                  style={styles.exRow}
+                >
+                  <Text variant="num" size={15} color={colors.textMut} style={styles.exIndex}>
+                    {index + 1}
                   </Text>
-                  <Text variant="small" style={styles.exMeta}>
-                    {item.sets} × {item.reps || `${item.durationSeconds}s`}
-                    {item.weight ? ` × ${item.weight}kg` : ''}
-                  </Text>
-                </View>
-                <View style={styles.exRest}>
-                  <Timer size={14} strokeWidth={2.2} color={colors.textMut} />
-                  <Text style={styles.exRestText}>{item.restTimeSeconds}s</Text>
-                </View>
-              </Card>
-            ))}
+                  <Img media={item.exercise.image} radius={12} style={styles.exThumb} />
+                  <View style={styles.exInfo}>
+                    <Text variant="h3" color={colors.text}>
+                      {item.exercise.name}
+                    </Text>
+                    <Text variant="small" style={styles.exMeta}>
+                      {summary.load}
+                    </Text>
+                  </View>
+                  {summary.rest && (
+                    <View style={styles.exRest}>
+                      <Timer size={14} strokeWidth={2.2} color={colors.textMut} />
+                      <Text style={styles.exRestText}>{summary.rest}</Text>
+                    </View>
+                  )}
+                </Card>
+              );
+            })}
           </View>
         </Pad>
       </Screen>
 
-      {/* Sticky CTA. Active-workout flow is deferred to a later pass. */}
+      {/* Sticky CTA — seeds a live session from this template and opens it. */}
       <LinearGradient colors={['rgba(14,14,16,0)', colors.bg]} style={styles.footer}>
-        <Button block size="lg" icon={<Play size={18} color={colors.white} fill={colors.white} />}>
+        <Button
+          block
+          size="lg"
+          onPress={() => startWorkout(template)}
+          icon={<Play size={18} color={colors.white} fill={colors.white} />}
+        >
           Start workout
         </Button>
       </LinearGradient>

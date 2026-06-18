@@ -10,3 +10,23 @@ export const WORKOUTS: WorkoutDTO[] = [
   { id: 6, userId: 1, workoutTemplateId: 3, volume: '11980', duration: 3900, createdAt: '2026-06-03T07:40:00Z' },
   { id: 7, userId: 1, workoutTemplateId: 2, volume: '6890', duration: 3060, createdAt: '2026-06-01T08:20:00Z' },
 ];
+
+let workoutIdSeq = Math.max(0, ...WORKOUTS.map((w) => w.id));
+
+/** Prepend a just-finished session to the (in-memory) history. */
+export function recordWorkout(input: {
+  workoutTemplateId: number | null;
+  volume: number;
+  durationSeconds: number;
+}): WorkoutDTO {
+  const dto: WorkoutDTO = {
+    id: ++workoutIdSeq,
+    userId: 1,
+    workoutTemplateId: input.workoutTemplateId ?? 0,
+    volume: String(Math.round(input.volume)),
+    duration: input.durationSeconds,
+    createdAt: new Date().toISOString(),
+  };
+  WORKOUTS.unshift(dto);
+  return dto;
+}

@@ -1,4 +1,5 @@
 export * from './exercise';
+export * from './workout-set';
 export * from './workout-item';
 export * from './workout-template';
 export * from './workout';

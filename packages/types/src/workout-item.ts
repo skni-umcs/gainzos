@@ -1,11 +1,8 @@
 import type { ExerciseDTO } from "./exercise";
+import type { WorkoutSetDTO } from "./workout-set";
 
 export type WorkoutItemDTO = {
     id: number;
     exercise: ExerciseDTO;
-    sets: number;
-    reps: number;
-    durationSeconds: number;
-    restTimeSeconds: number;
-    weight: number;
+    sets: WorkoutSetDTO[];
 }

@@ -12,21 +12,8 @@ export function TemplateCard({ template }: { template: WorkoutTemplateDTO }) {
   const categories = categoriesOf(template.muscleGroups);
 
   return (
-    <Card onPress={() => router.push(`/templates/${template.id}`)} style={styles.card}>
+    <Card onPress={() => router.push(`/templates/${template.id}/view`)} style={styles.card}>
       <Img media={template.items[0]?.exercise.image} radius={0} scrim scrimStrength={0.86} style={styles.cover}>
-        <View style={styles.badge}>
-          <Badge
-            label={template.isPublic ? 'Public' : 'Private'}
-            tone={template.isPublic ? 'accent' : 'neutral'}
-            icon={
-              template.isPublic ? (
-                <Globe size={12} strokeWidth={2.2} color={colors.accentBr} />
-              ) : (
-                <Lock size={12} strokeWidth={2.2} color={colors.text2} />
-              )
-            }
-          />
-        </View>
         <Text variant="display" size={24} color={colors.white} style={styles.title}>
           {template.name}
         </Text>
@@ -59,7 +46,6 @@ export function TemplateCard({ template }: { template: WorkoutTemplateDTO }) {
 const styles = StyleSheet.create({
   card: { padding: 0, overflow: 'hidden' },
   cover: { width: '100%', height: 116 },
-  badge: { position: 'absolute', top: 12, right: 12 },
   title: { position: 'absolute', left: 14, bottom: 12, right: 14 },
   body: { padding: 14 },
   desc: { marginBottom: 12 },

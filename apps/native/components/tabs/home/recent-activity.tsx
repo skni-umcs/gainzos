@@ -17,7 +17,7 @@ export function RecentActivity() {
           if (!template) return null;
           const tonnes = (Number(workout.volume) / 1000).toFixed(1);
           return (
-            <Card key={workout.id} onPress={() => router.push(`/templates/${template.id}`)} style={styles.row}>
+            <Card key={workout.id} onPress={() => router.push(`/templates/${template.id}/view`)} style={styles.row}>
               <View style={styles.info}>
                 <Text variant="h3" color={colors.text} numberOfLines={1}>
                   {template.name}

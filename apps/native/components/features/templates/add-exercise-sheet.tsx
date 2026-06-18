@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronLeft, ChevronRight, Plus, Search, X } from 'lucide-react-native';
-import type { ExerciseDTO } from '@gainzos/types';
+import type { ExerciseDTO, WorkoutItemDTO } from '@gainzos/types';
 import { colors, fontFamily, radius } from '@/theme';
 import { IconButton, Img, Text } from '@/components/ui';
 import {
@@ -19,20 +19,23 @@ import {
   exercisesByType,
   muscleLabel,
   nextWorkoutItemId,
+  nextWorkoutSetId,
 } from '@/lib/mock';
 import { useTemplateStore } from '@/lib/store/template';
 
-/** Sensible starting values for a freshly added exercise. */
-function buildDraftItem(exercise: ExerciseDTO) {
+/** A freshly added exercise starts with three identical sets of sensible defaults. */
+function buildDraftItem(exercise: ExerciseDTO): WorkoutItemDTO {
   const isStatic = exercise.force === 'Static';
   return {
     id: nextWorkoutItemId(),
     exercise,
-    sets: 3,
-    reps: isStatic ? 0 : 10,
-    durationSeconds: isStatic ? 30 : 0,
-    restTimeSeconds: 90,
-    weight: 0,
+    sets: Array.from({ length: 3 }, () => ({
+      id: nextWorkoutSetId(),
+      reps: isStatic ? 0 : 10,
+      durationSeconds: isStatic ? 30 : 0,
+      restTimeSeconds: 90,
+      weight: 0,
+    })),
   };
 }
 
